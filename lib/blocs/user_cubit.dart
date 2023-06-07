@@ -10,16 +10,13 @@ class UserCubit extends Cubit<bool> {
   final FirebaseAuth firebaseAuth;
   final FirebaseFirestore firebaseFirestore;
 
-  /*
   Future<void> init() async {
-    final initState = await userRepository.init();
+    final initState = firebaseAuth.currentUser != null;
 
     emit(initState);
   }
-  */
 
   Future<void> login(String username, String password) async {
-    //await userRepository.login(username, password);
     await firebaseAuth.signInWithEmailAndPassword(
         email: username, password: password);
 
@@ -28,7 +25,6 @@ class UserCubit extends Cubit<bool> {
 
   Future<bool> signup(String username, String password) async {
     try {
-      //await userRepository.signup(username, password);
       await firebaseAuth.createUserWithEmailAndPassword(
         email: username,
         password: password,
