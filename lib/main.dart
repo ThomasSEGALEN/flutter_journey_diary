@@ -13,6 +13,9 @@ void main() async {
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  final UserCubit userCubit = UserCubit(firebaseAuth, firebaseFirestore);
+
+  await userCubit.init();
 
   runApp(
     MultiBlocProvider(
