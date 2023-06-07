@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/repositories/user_repository.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
+import 'package:flutter_journey_diary/ui/screen/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,8 +43,8 @@ class MyApp extends StatelessWidget {
       ),
       home: BlocBuilder<UserCubit, bool>(
         builder: (context, state) =>
-            state ? const /*HomePage()*/ LoginPage() : const LoginPage(),
-      ),
+            state ? const HomePage() : const LoginPage(),
+    ),
       debugShowCheckedModeBanner: false,
     );
   }
