@@ -1,57 +1,26 @@
-import 'dart:developer';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_journey_diary/repositories/user_repository.dart';
 
 class UserCubit extends Cubit<bool> {
-  UserCubit(this.firebaseAuth, this.firebaseFirestore) : super(false);
+  UserCubit(this.userRepository) : super(false);
 
-  //final UserRepository userRepository;
-  final FirebaseAuth firebaseAuth;
-  final FirebaseFirestore firebaseFirestore;
+  final UserRepository userRepository;
 
   Future<void> init() async {
-    final initState = firebaseAuth.currentUser != null;
-
-    emit(initState);
+    emit(await userRepository.init());
   }
 
-  Future<void> login(String username, String password) async {
-    await firebaseAuth.signInWithEmailAndPassword(
-        email: username, password: password);
-
-    emit(true);
+  Future<void> login(String email, String password) async {
+    emit(await userRepository.login(email, password));
   }
 
-  Future<bool> signup(String username, String password) async {
-    try {
-      await firebaseAuth.createUserWithEmailAndPassword(
-        email: username,
-        password: password,
-      );
+  Future<bool> register(String email, String password) async {
+    bool registerState = await userRepository.register(email, password);
 
-      return true;
-    } catch (e) {
-      log(e.toString());
-
-      return false;
-    }
+    return registerState;
   }
 
   Future<void> logout() async {
-    //await userRepository.logout();
-    await firebaseAuth.signOut();
-
-    emit(false);
-  }
-
-  Future<void> rateMovie(int movieId, int rating) async {
-    //await userRepository.rateMovie(movieId, rating);
-    await firebaseFirestore
-        .collection('users')
-        .doc(firebaseAuth.currentUser?.uid ?? '')
-        .collection('movies')
-        .doc(movieId.toString())
-        .set({'rating': rating});
+    emit(await userRepository.logout());
   }
 }

@@ -91,15 +91,15 @@ class _RegisterPageState extends State<RegisterPage> {
                             if (_formKey.currentState!.validate()) {
                               final String email = _emailController.text;
                               final String password = _passwordController.text;
-                              final checkSignUp = await context
+                              final bool checkRegister = await context
                                   .read<UserCubit>()
-                                  .signup(email, password);
+                                  .register(email, password);
 
                               if (!mounted) return;
 
                               late final SnackBar snackBar;
 
-                              if (checkSignUp) {
+                              if (checkRegister) {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => const LoginPage(),

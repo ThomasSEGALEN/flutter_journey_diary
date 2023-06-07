@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
+import 'package:flutter_journey_diary/repositories/user_repository.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
 
 void main() async {
@@ -11,20 +12,16 @@ void main() async {
 
   await Firebase.initializeApp();
 
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  final UserCubit userCubit = UserCubit(firebaseAuth, firebaseFirestore);
+  final UserRepository userRepository =
+      UserRepository(FirebaseAuth.instance, FirebaseFirestore.instance);
 
-  await userCubit.init();
+  await userRepository.init();
 
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => UserCubit(
-            firebaseAuth,
-            firebaseFirestore,
-          ),
+          create: (_) => UserCubit(userRepository),
         ),
       ],
       child: const MyApp(),
