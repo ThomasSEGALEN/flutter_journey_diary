@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/repositories/user_repository.dart';
+import 'package:flutter_journey_diary/ui/screens/home_page.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
-import 'package:flutter_journey_diary/ui/screen/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
