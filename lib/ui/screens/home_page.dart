@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Color(JourneyColor.vomitOrange),
+        backgroundColor: Colors.transparent,
         title: Text("Journey"),
     ),
       body: Container(
