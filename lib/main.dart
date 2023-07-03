@@ -22,8 +22,10 @@ Future<void> main() async {
 
   final UserRepository userRepository =
       UserRepository(FirebaseAuth.instance, FirebaseFirestore.instance);
-  final PlaceRepository placeRepository =
-      PlaceRepository(FirebaseDatabase.instance, FirebaseAuth.instance, FirebaseStorage.instance);
+  final PlaceRepository placeRepository = PlaceRepository(
+      FirebaseDatabase.instance,
+      FirebaseAuth.instance,
+      FirebaseStorage.instance);
 
   await userRepository.init();
 
@@ -34,7 +36,7 @@ Future<void> main() async {
           create: (_) => UserCubit(userRepository),
         ),
         BlocProvider(
-               create: (_) => PlaceCubit(placeRepository),
+          create: (_) => PlaceCubit(placeRepository),
         ),
       ],
       child: const MyApp(),
@@ -48,9 +50,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Journey Diary',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.transparent,
+        ),
         useMaterial3: true,
       ),
       home: BlocBuilder<UserCubit, bool>(

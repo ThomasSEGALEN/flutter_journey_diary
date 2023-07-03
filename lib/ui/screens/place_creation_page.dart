@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PlaceCreationPage extends StatelessWidget {
-  PlaceCreationPage ({Key? key}) : super(key: key);
+  PlaceCreationPage({Key? key}) : super(key: key);
 
   XFile? _image;
 
@@ -21,12 +21,11 @@ class PlaceCreationPage extends StatelessWidget {
   bool _formSubmit = true;
 
   Future getImage() async {
-
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-     _image = pickedFile;
+    _image = pickedFile;
     print(_image?.path);
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,8 +98,8 @@ class PlaceCreationPage extends StatelessWidget {
                             onPressed: () {
                               getImage();
                               print("afeaefaefafazfaef");
-                            }, child: Text("Importer une image"),
-                            
+                            },
+                            child: Text("Importer une image"),
                           ),
                         ),
                       ],
@@ -109,23 +108,26 @@ class PlaceCreationPage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: _formSubmit
                         ? () async {
-                      if (_formKey.currentState!.validate()) {
-                        List<File> listFile = [];
-                        if(_image != null) {
-                          File file = File(_image!.path);
-                          listFile.add(file);
-                        }
-                        Place place = Place(
-                            name: _nameController.value.text,
-                            description: _descriptionController.value.text,
-                            images: listFile,
-                            locality: _localityController.value.text);
-                        print(place.toString());
-                        context
-                            .read<PlaceCubit>().placeRepository.savePlace(place);
-                        Navigator.pop(context);
-                      }
-                    }
+                            if (_formKey.currentState!.validate()) {
+                              List<File> listFile = [];
+                              if (_image != null) {
+                                File file = File(_image!.path);
+                                listFile.add(file);
+                              }
+                              Place place = Place(
+                                  name: _nameController.value.text,
+                                  description:
+                                      _descriptionController.value.text,
+                                  images: listFile,
+                                  locality: _localityController.value.text);
+                              print(place.toString());
+                              context
+                                  .read<PlaceCubit>()
+                                  .placeRepository
+                                  .savePlace(place);
+                              Navigator.pop(context);
+                            }
+                          }
                         : null,
                     child: Text(
                       'Enregistrer',
@@ -134,7 +136,7 @@ class PlaceCreationPage extends StatelessWidget {
                         fontSize: 16,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
