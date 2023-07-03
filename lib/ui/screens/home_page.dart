@@ -48,10 +48,11 @@ class _HomePageState extends State<HomePage> {
 
                 if (!checkLogout) {
                   Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ),
-                      (route) => false);
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                    (route) => false,
+                  );
                 }
               },
             ),

@@ -69,20 +69,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                   value == null || value.isEmpty
                                       ? 'Le champ doit être renseigné'
                                       : null,
-                              cursorColor:
-                                  const Color(JourneyColor.vomitOrange),
+                              showCursor: false,
                               style: const TextStyle(
-                                color: Color(JourneyColor.vomitOrange),
-                                fontSize: JourneyFont.m,
+                                color: Color(JourneyColor.black),
+                                fontSize: JourneyFont.sm,
                                 decorationThickness: 0,
                               ),
                               decoration: const InputDecoration(
-                                icon: Icon(Icons.person),
+                                icon: Icon(Icons.person_outlined),
                                 iconColor: Color(JourneyColor.vomitOrange),
                                 labelText: 'Adresse e-mail',
                                 labelStyle: TextStyle(
                                   color: Color(JourneyColor.vomitOrange),
-                                  fontSize: JourneyFont.l,
+                                  fontSize: JourneyFont.m,
                                   fontWeight: FontWeight.w600,
                                   decorationThickness: 0,
                                 ),
@@ -100,20 +99,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                   value == null || value.isEmpty
                                       ? 'Le champ doit être renseigné'
                                       : null,
-                              cursorColor:
-                                  const Color(JourneyColor.vomitOrange),
+                              showCursor: false,
                               style: const TextStyle(
-                                color: Color(JourneyColor.vomitOrange),
-                                fontSize: JourneyFont.m,
+                                color: Color(JourneyColor.black),
+                                fontSize: JourneyFont.sm,
                                 decorationThickness: 0,
                               ),
                               decoration: const InputDecoration(
-                                icon: Icon(Icons.person),
+                                icon: Icon(Icons.key_outlined),
                                 iconColor: Color(JourneyColor.vomitOrange),
                                 labelText: 'Mot de passe',
                                 labelStyle: TextStyle(
                                   color: Color(JourneyColor.vomitOrange),
-                                  fontSize: JourneyFont.l,
+                                  fontSize: JourneyFont.m,
                                   fontWeight: FontWeight.w600,
                                   decorationThickness: 0,
                                 ),
@@ -178,23 +176,18 @@ class _RegisterPageState extends State<RegisterPage> {
                                   }
                                 }
                               : null,
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.resolveWith(
-                              (states) {
-                                if (states.contains(MaterialState.pressed)) {
-                                  return const Color(JourneyColor.white);
-                                }
-
-                                return const Color(JourneyColor.vomitOrange);
-                              },
-                            ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color(JourneyColor.vomitOrange),
+                            disabledBackgroundColor: Colors.black12,
                           ),
                           child: Text(
                             'Inscription',
                             style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w600,
-                                fontSize: JourneyFont.m,
-                                color: const Color(JourneyColor.white)),
+                              fontWeight: FontWeight.w600,
+                              fontSize: JourneyFont.m,
+                              color: const Color(JourneyColor.white),
+                            ),
                           ),
                         ),
                       ),
@@ -204,12 +197,17 @@ class _RegisterPageState extends State<RegisterPage> {
                             builder: (context) => const LoginPage(),
                           ),
                         ),
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.resolveWith(
+                            (states) => Colors.transparent,
+                          ),
+                        ),
                         child: Text(
                           "J'ai déjà un compte",
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w600,
                             fontSize: JourneyFont.xs,
-                            color: const Color(JourneyColor.vomitOrange),
+                            color: const Color(JourneyColor.black),
                           ),
                         ),
                       ),

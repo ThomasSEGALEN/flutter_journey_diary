@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/screens/home_page.dart';
+import 'package:flutter_journey_diary/ui/screens/register_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
 import 'package:flutter_journey_diary/ui/shared/fonts.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -57,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     'Se connecter',
                     style: GoogleFonts.poppins(
-                      color: const Color(JourneyColor.vomitOrange),
+                      color: const Color(JourneyColor.black),
                       fontWeight: FontWeight.w600,
                       fontSize: JourneyFont.xxl,
                     ),
@@ -77,20 +78,19 @@ class _LoginPageState extends State<LoginPage> {
                                   value == null || value.isEmpty
                                       ? 'Le champ doit être renseigné'
                                       : null,
-                              cursorColor:
-                                  const Color(JourneyColor.vomitOrange),
+                              showCursor: false,
                               style: const TextStyle(
-                                color: Color(JourneyColor.vomitOrange),
-                                fontSize: JourneyFont.m,
+                                color: Color(JourneyColor.black),
+                                fontSize: JourneyFont.sm,
                                 decorationThickness: 0,
                               ),
                               decoration: const InputDecoration(
-                                icon: Icon(Icons.person),
+                                icon: Icon(Icons.person_outlined),
                                 iconColor: Color(JourneyColor.vomitOrange),
                                 labelText: 'Adresse e-mail',
                                 labelStyle: TextStyle(
                                   color: Color(JourneyColor.vomitOrange),
-                                  fontSize: JourneyFont.l,
+                                  fontSize: JourneyFont.m,
                                   fontWeight: FontWeight.w600,
                                   decorationThickness: 0,
                                 ),
@@ -108,20 +108,19 @@ class _LoginPageState extends State<LoginPage> {
                                   value == null || value.isEmpty
                                       ? 'Le champ doit être renseigné'
                                       : null,
-                              cursorColor:
-                                  const Color(JourneyColor.vomitOrange),
+                              showCursor: false,
                               style: const TextStyle(
-                                color: Color(JourneyColor.vomitOrange),
-                                fontSize: JourneyFont.m,
+                                color: Color(JourneyColor.black),
+                                fontSize: JourneyFont.sm,
                                 decorationThickness: 0,
                               ),
                               decoration: const InputDecoration(
-                                icon: Icon(Icons.person),
+                                icon: Icon(Icons.key_outlined),
                                 iconColor: Color(JourneyColor.vomitOrange),
                                 labelText: 'Mot de passe',
                                 labelStyle: TextStyle(
                                   color: Color(JourneyColor.vomitOrange),
-                                  fontSize: JourneyFont.l,
+                                  fontSize: JourneyFont.m,
                                   fontWeight: FontWeight.w600,
                                   decorationThickness: 0,
                                 ),
@@ -147,76 +146,72 @@ class _LoginPageState extends State<LoginPage> {
                                         _emailController.text;
                                     final String password =
                                         _passwordController.text;
-
-                                    context
+                                    final bool checkLogin = await context
                                         .read<UserCubit>()
                                         .login(username, password);
+
+                                    if (!mounted) return;
+
+                                    late final SnackBar snackBar;
+
+                                    if (checkLogin) {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomePage(),
+                                        ),
+                                      );
+                                    } else {
+                                      snackBar = SnackBar(
+                                        content: const Text(
+                                            "Identifiants invalides"),
+                                        action: SnackBarAction(
+                                          label: 'Cacher',
+                                          onPressed: () {},
+                                        ),
+                                      );
+                                    }
+
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
                                   }
                                 }
                               : null,
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.resolveWith(
-                              (states) {
-                                if (states.contains(MaterialState.pressed)) {
-                                  return const Color(JourneyColor.white);
-                                }
-
-                                return const Color(JourneyColor.vomitOrange);
-                              },
-                            ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color(JourneyColor.vomitOrange),
+                            disabledBackgroundColor: Colors.black12,
                           ),
                           child: Text(
                             'Connexion',
                             style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w600,
-                                fontSize: JourneyFont.m,
-                                color: const Color(JourneyColor.white)),
+                              fontWeight: FontWeight.w600,
+                              fontSize: JourneyFont.m,
+                              color: const Color(JourneyColor.white),
+                            ),
                           ),
                         ),
                       )
                     ],
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: _formSubmit
-                      ? () async {
-                          if (_formKey.currentState!.validate()) {
-                            final String username = _emailController.text;
-                            final String password = _passwordController.text;
-                            final bool checkLogin = await context
-                                .read<UserCubit>()
-                                .login(username, password);
-
-                            if (!mounted) return;
-
-                            late final SnackBar snackBar;
-
-                            if (checkLogin) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
-                                ),
-                              );
-                            } else {
-                              snackBar = SnackBar(
-                                content: const Text("Identifiants invalides"),
-                                action: SnackBarAction(
-                                  label: 'Cacher',
-                                  onPressed: () {},
-                                ),
-                              );
-                            }
-
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          }
-                        }
-                      : null,
+                TextButton(
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const RegisterPage(),
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.resolveWith(
+                      (states) => Colors.transparent,
+                    ),
+                  ),
                   child: Text(
-                    'Connexion',
+                    "Je me crée un compte",
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600,
-                      fontSize: 16,
+                      fontSize: JourneyFont.xs,
+                      color: const Color(JourneyColor.black),
                     ),
                   ),
                 ),
