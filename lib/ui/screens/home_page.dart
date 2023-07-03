@@ -1,14 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
-import 'package:flutter_journey_diary/ui/screens/place_creation_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../consts/colors.dart';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -77,9 +72,6 @@ class _HomePageState extends State<HomePage> {
               Color(JourneyColor.lightOrange)
             ],
           ),
-        ),
-        child: Column(
-          children: [],
         ),
       ),
     );

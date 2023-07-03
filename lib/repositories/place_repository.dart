@@ -1,11 +1,7 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_journey_diary/models/place.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
+import 'package:flutter_journey_diary/models/place.dart';
 
 class PlaceRepository {
   final FirebaseDatabase database;
@@ -21,31 +17,29 @@ class PlaceRepository {
 
       Map<String, String> imageMap = {};
       int index = 1;
-      if(place.images.isNotEmpty) {
+      if (place.images.isNotEmpty) {
         for (var element in place.images) {
           index++;
-          final mountainImagesRef = storageRef.child("$userId/${place.locality}/$index");
+          final mountainImagesRef =
+              storageRef.child("$userId/${place.locality}/$index");
           mountainImagesRef.putFile(element);
           imageMap.addAll({"images": element.path});
         }
       }
       DatabaseReference ref = FirebaseDatabase.instance.ref();
 
-      ref.child('$userId').push().set(       {
+      ref.child('$userId').push().set({
         "place": {
           "name": place.name,
           "locality": place.locality,
           "description": place.description,
           "images": imageMap
         }
-      }
-      );
+      });
 
       return true;
-    }
-    catch(e) {
+    } catch (e) {
       return false;
     }
   }
-
 }

@@ -22,7 +22,7 @@ class Amadeus {
       log(e.toString());
       return null;
     }
-    final Map data = jsonDecode(response!.body);
+    final Map data = jsonDecode(response.body);
     token = data['access_token'];
 
     return token;

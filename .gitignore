@@ -47,6 +47,3 @@ app.*.map.json
 /windows
 /linux
 /macos
-
-# Environment variables
-.env

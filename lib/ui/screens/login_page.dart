@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/screens/home_page.dart';
-import 'package:flutter_journey_diary/ui/screens/register_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
 import 'package:flutter_journey_diary/ui/shared/fonts.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -178,53 +177,46 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                TextButton(
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const RegisterPage(),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: _formSubmit
-                        ? () async {
-                            if (_formKey.currentState!.validate()) {
-                              final String username = _emailController.text;
-                              final String password = _passwordController.text;
-                              final bool checkLogin = await context
-                                  .read<UserCubit>()
-                                  .login(username, password);
+                ElevatedButton(
+                  onPressed: _formSubmit
+                      ? () async {
+                          if (_formKey.currentState!.validate()) {
+                            final String username = _emailController.text;
+                            final String password = _passwordController.text;
+                            final bool checkLogin = await context
+                                .read<UserCubit>()
+                                .login(username, password);
 
-                              if (!mounted) return;
+                            if (!mounted) return;
 
-                              late final SnackBar snackBar;
+                            late final SnackBar snackBar;
 
-                              if (checkLogin) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const HomePage(),
-                                  ),
-                                );
-                              } else {
-                                snackBar = SnackBar(
-                                  content: const Text("Identifiants invalides"),
-                                  action: SnackBarAction(
-                                    label: 'Cacher',
-                                    onPressed: () {},
-                                  ),
-                                );
-                              }
-
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                            if (checkLogin) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const HomePage(),
+                                ),
+                              );
+                            } else {
+                              snackBar = SnackBar(
+                                content: const Text("Identifiants invalides"),
+                                action: SnackBarAction(
+                                  label: 'Cacher',
+                                  onPressed: () {},
+                                ),
+                              );
                             }
+
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
                           }
-                        : null,
-                    child: Text(
-                      'Connexion',
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
+                        }
+                      : null,
+                  child: Text(
+                    'Connexion',
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
                     ),
                   ),
                 ),
