@@ -49,7 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Text(
                     "S'inscrire",
                     style: GoogleFonts.poppins(
-                      color: const Color(JourneyColor.vomitOrange),
+                      color: const Color(JourneyColor.black),
                       fontWeight: FontWeight.w600,
                       fontSize: JourneyFont.xxl,
                     ),
