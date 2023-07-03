@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_journey_diary/ui/shared/colors.dart';
+import 'package:flutter_journey_diary/ui/shared/fonts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
@@ -33,128 +35,190 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F8F8),
+      backgroundColor: const Color(JourneyColor.white),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "S'inscrire",
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w600,
-                fontSize: 24,
-              ),
-            ),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: TextFormField(
-                            controller: _emailController,
-                            validator: (value) => value == null || value.isEmpty
-                                ? 'Le champ doit être renseigné'
-                                : null,
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.person),
-                              labelText: 'Adresse e-mail',
+        child: Container(
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: Text(
+                    "S'inscrire",
+                    style: GoogleFonts.poppins(
+                      color: const Color(JourneyColor.vomitOrange),
+                      fontWeight: FontWeight.w600,
+                      fontSize: JourneyFont.xxl,
+                    ),
+                  ),
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: _emailController,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Le champ doit être renseigné'
+                                      : null,
+                              cursorColor:
+                                  const Color(JourneyColor.vomitOrange),
+                              style: const TextStyle(
+                                color: Color(JourneyColor.vomitOrange),
+                                fontSize: JourneyFont.m,
+                                decorationThickness: 0,
+                              ),
+                              decoration: const InputDecoration(
+                                icon: Icon(Icons.person),
+                                iconColor: Color(JourneyColor.vomitOrange),
+                                labelText: 'Adresse e-mail',
+                                labelStyle: TextStyle(
+                                  color: Color(JourneyColor.vomitOrange),
+                                  fontSize: JourneyFont.l,
+                                  fontWeight: FontWeight.w600,
+                                  decorationThickness: 0,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    width: 2,
+                                    color: Color(JourneyColor.vomitOrange),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TextFormField(
+                              controller: _passwordController,
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Le champ doit être renseigné'
+                                      : null,
+                              cursorColor:
+                                  const Color(JourneyColor.vomitOrange),
+                              style: const TextStyle(
+                                color: Color(JourneyColor.vomitOrange),
+                                fontSize: JourneyFont.m,
+                                decorationThickness: 0,
+                              ),
+                              decoration: const InputDecoration(
+                                icon: Icon(Icons.person),
+                                iconColor: Color(JourneyColor.vomitOrange),
+                                labelText: 'Mot de passe',
+                                labelStyle: TextStyle(
+                                  color: Color(JourneyColor.vomitOrange),
+                                  fontSize: JourneyFont.l,
+                                  fontWeight: FontWeight.w600,
+                                  decorationThickness: 0,
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    width: 2,
+                                    color: Color(JourneyColor.vomitOrange),
+                                  ),
+                                ),
+                              ),
+                              obscureText: true,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 40),
+                        child: ElevatedButton(
+                          onPressed: _formSubmit
+                              ? () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    final String email = _emailController.text;
+                                    final String password =
+                                        _passwordController.text;
+                                    final bool checkRegister = await context
+                                        .read<UserCubit>()
+                                        .register(email, password);
+
+                                    if (!mounted) return;
+
+                                    late final SnackBar snackBar;
+
+                                    if (checkRegister) {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginPage(),
+                                        ),
+                                      );
+
+                                      snackBar = SnackBar(
+                                        content:
+                                            const Text("Inscription réussie"),
+                                        action: SnackBarAction(
+                                          label: 'Cacher',
+                                          onPressed: () {},
+                                        ),
+                                      );
+                                    } else {
+                                      snackBar = SnackBar(
+                                        content: const Text(
+                                            "Erreur lors de l'inscription"),
+                                        action: SnackBarAction(
+                                          label: 'Cacher',
+                                          onPressed: () {},
+                                        ),
+                                      );
+                                    }
+
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  }
+                                }
+                              : null,
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.resolveWith(
+                              (states) {
+                                if (states.contains(MaterialState.pressed)) {
+                                  return const Color(JourneyColor.white);
+                                }
+
+                                return const Color(JourneyColor.vomitOrange);
+                              },
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: TextFormField(
-                            controller: _passwordController,
-                            validator: (value) => value == null || value.isEmpty
-                                ? 'Le champ doit être renseigné'
-                                : null,
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.key),
-                              labelText: 'Mot de passe',
-                            ),
-                            obscureText: true,
-                            enableSuggestions: false,
-                            autocorrect: false,
+                          child: Text(
+                            'Inscription',
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w600,
+                                fontSize: JourneyFont.m,
+                                color: const Color(JourneyColor.white)),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: _formSubmit
-                        ? () async {
-                            if (_formKey.currentState!.validate()) {
-                              final String email = _emailController.text;
-                              final String password = _passwordController.text;
-                              final bool checkRegister = await context
-                                  .read<UserCubit>()
-                                  .register(email, password);
-
-                              if (!mounted) return;
-
-                              late final SnackBar snackBar;
-
-                              if (checkRegister) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const LoginPage(),
-                                  ),
-                                );
-
-                                snackBar = SnackBar(
-                                  content: const Text("Inscription réussie"),
-                                  action: SnackBarAction(
-                                    label: 'Cacher',
-                                    onPressed: () {},
-                                  ),
-                                );
-                              } else {
-                                snackBar = SnackBar(
-                                  content: const Text(
-                                      "Erreur lors de l'inscription"),
-                                  action: SnackBarAction(
-                                    label: 'Cacher',
-                                    onPressed: () {},
-                                  ),
-                                );
-                              }
-
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            }
-                          }
-                        : null,
-                    child: Text(
-                      'Inscription',
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
                       ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                        ),
+                        child: Text(
+                          "J'ai déjà un compte",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w600,
+                            fontSize: JourneyFont.xs,
+                            color: const Color(JourneyColor.vomitOrange),
+                          ),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      "J'ai déjà un compte",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                      ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
