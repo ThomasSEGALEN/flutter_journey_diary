@@ -1,7 +1,5 @@
 import 'dart:io';
-import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_journey_diary/blocs/place_cubit.dart';
@@ -112,8 +110,11 @@ class PlaceCreationPage extends StatelessWidget {
                     onPressed: _formSubmit
                         ? () async {
                       if (_formKey.currentState!.validate()) {
-                        File file = File(_image!.path);
-                        List<File> listFile = [file];
+                        List<File> listFile = [];
+                        if(_image != null) {
+                          File file = File(_image!.path);
+                          listFile.add(file);
+                        }
                         Place place = Place(
                             name: _nameController.value.text,
                             description: _descriptionController.value.text,
@@ -122,6 +123,7 @@ class PlaceCreationPage extends StatelessWidget {
                         print(place.toString());
                         context
                             .read<PlaceCubit>().placeRepository.savePlace(place);
+                        Navigator.pop(context);
                       }
                     }
                         : null,
