@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_journey_diary/ui/screens/place_creation_page.dart';
+
+import '../consts/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
@@ -15,7 +18,15 @@ class HomePage extends StatelessWidget {
         child: ListView(
           children: [
             DrawerHeader(
-              child: Image.asset("assets/images/logoJourneyDiary.png"),
+                child: Image.asset("assets/images/logoJourneyDiary.png")),
+            ListTile(
+                title: const Text('Ajouter un lieu'),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PlaceCreationPage()));
+                }),
             ),
             ListTile(
               leading: const Icon(Icons.logout),
