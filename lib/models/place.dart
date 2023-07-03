@@ -6,7 +6,19 @@ class Place {
   List<File> images;
   String locality;
 
-  Place({required this.name, this.description, required this.images, required this.locality});
+  Place({
+    required this.name,
+    this.description,
+    required this.images,
+    required this.locality,
+  });
+
+  factory Place.fromJson(Map<String, dynamic> json) => Place(
+        name: json['name'],
+        description: json['description'],
+        images: json['images'],
+        locality: json['locality'],
+      );
 
   @override
   String toString() {
