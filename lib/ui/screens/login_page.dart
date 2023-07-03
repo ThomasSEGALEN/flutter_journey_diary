@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_journey_diary/ui/screens/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/screens/register_page.dart';
@@ -99,10 +100,32 @@ class _LoginPageState extends State<LoginPage> {
                             if (_formKey.currentState!.validate()) {
                               final String username = _emailController.text;
                               final String password = _passwordController.text;
-
-                              context
+                              final bool checkLogin = await context
                                   .read<UserCubit>()
                                   .login(username, password);
+
+                              if (!mounted) return;
+
+                              late final SnackBar snackBar;
+
+                              if (checkLogin) {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const HomePage(),
+                                  ),
+                                );
+                              } else {
+                                snackBar = SnackBar(
+                                  content: const Text("Identifiants invalides"),
+                                  action: SnackBarAction(
+                                    label: 'Cacher',
+                                    onPressed: () {},
+                                  ),
+                                );
+                              }
+
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
                             }
                           }
                         : null,

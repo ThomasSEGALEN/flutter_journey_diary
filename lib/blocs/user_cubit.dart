@@ -10,8 +10,11 @@ class UserCubit extends Cubit<bool> {
     emit(await userRepository.init());
   }
 
-  Future<void> login(String email, String password) async {
-    emit(await userRepository.login(email, password));
+  Future<bool> login(String email, String password) async {
+    bool loginState = await userRepository.login(email, password);
+    emit(loginState);
+
+    return loginState;
   }
 
   Future<bool> register(String email, String password) async {
@@ -20,7 +23,10 @@ class UserCubit extends Cubit<bool> {
     return registerState;
   }
 
-  Future<void> logout() async {
-    emit(await userRepository.logout());
+  Future<bool> logout() async {
+    bool logoutState = await userRepository.logout();
+    emit(logoutState);
+
+    return logoutState;
   }
 }
