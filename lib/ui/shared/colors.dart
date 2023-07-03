@@ -1,4 +1,4 @@
-class JourneyColor{
+class JourneyColor {
   static const int lightOrange = 0xFFFF9A70;
   static const int darkOrange = 0xFFE87966;
   static const int vomitOrange = 0xFFFF7D7D;

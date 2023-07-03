@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_journey_diary/ui/screens/place_creation_page.dart';
 
 import '../consts/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_journey_diary/blocs/user_cubit.dart';
+import 'package:flutter_journey_diary/ui/shared/colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,7 +16,6 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       drawer: Drawer(
         child: ListView(
-          padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
                 child: Image.asset("assets/images/logoJourneyDiary.png")),
@@ -24,6 +27,19 @@ class HomePage extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => PlaceCreationPage()));
                 }),
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: Text(
+                'Se déconnecter',
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
+              ),
+              onTap: () => context.read<UserCubit>().logout(),
+            ),
           ],
         ),
       ),
@@ -40,7 +56,9 @@ class HomePage extends StatelessWidget {
               Color(JourneyColor.white),
               Color(JourneyColor.lightOrange)
             ])),
-        child: Column(),
+        child: Column(
+          children: [],
+        ),
       ),
     );
   }
