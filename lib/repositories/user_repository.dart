@@ -49,4 +49,16 @@ class UserRepository {
 
     return false;
   }
+
+  Future<bool> resetPassword(String username) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: username);
+
+      return true;
+    } catch (e) {
+      log(e.toString());
+
+      return false;
+    }
+  }
 }
