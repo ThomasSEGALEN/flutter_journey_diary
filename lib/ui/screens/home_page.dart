@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_journey_diary/blocs/location_cubit.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
+import 'package:flutter_journey_diary/ui/shared/fonts.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,6 +15,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final TextEditingController _locationController = TextEditingController();
+
+  @override
+  void dispose() {
+    _locationController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +38,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text('Accueil'),
               onTap: () {},
             ),
-            const Divider(
-              color: Color(JourneyColor.black),
-            ),
+            const Divider(color: Colors.black),
             ListTile(
               leading: const Icon(Icons.logout_outlined),
               title: Text(
@@ -60,19 +69,69 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: const Text("Journey"),
+        backgroundColor: const Color(JourneyColor.congoPink),
+        title: const Text("Accueil"),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(JourneyColor.white),
-              Color(JourneyColor.lightOrange)
-            ],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            Column(
+              children: [
+                Text(
+                  'Trouvez un lieu mémorable',
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: JourneyFont.l,
+                  ),
+                ),
+                Text(
+                  'dans la ville de votre choix',
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: JourneyFont.l,
+                  ),
+                ),
+              ],
+            ),
+            TextField(
+              controller: _locationController,
+              showCursor: false,
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                labelText: 'Recherche',
+                labelStyle: const TextStyle(color: Colors.grey),
+                suffixIcon: IconButton(
+                  onPressed: () async {
+                    print('search');
+
+                    await context
+                        .read<LocationCubit>()
+                        .loadLocations(_locationController.text.trim());
+                  },
+                  icon: const Icon(Icons.search_outlined),
+                ),
+                suffixIconColor: Colors.grey,
+              ),
+            ),
+          ],
         ),
       ),
     );

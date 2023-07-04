@@ -18,7 +18,6 @@ class PlaceCreationPage extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _localityController = TextEditingController();
-  bool _formSubmit = true;
 
   Future getImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -106,29 +105,27 @@ class PlaceCreationPage extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: _formSubmit
-                        ? () async {
-                            if (_formKey.currentState!.validate()) {
-                              List<File> listFile = [];
-                              if (_image != null) {
-                                File file = File(_image!.path);
-                                listFile.add(file);
-                              }
-                              Place place = Place(
-                                  name: _nameController.value.text,
-                                  description:
-                                      _descriptionController.value.text,
-                                  images: listFile,
-                                  locality: _localityController.value.text);
-                              print(place.toString());
-                              context
-                                  .read<PlaceCubit>()
-                                  .placeRepository
-                                  .savePlace(place);
-                              Navigator.pop(context);
-                            }
-                          }
-                        : null,
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        List<File> listFile = [];
+                        if (_image != null) {
+                          File file = File(_image!.path);
+                          listFile.add(file);
+                        }
+                        Place place = Place(
+                          name: _nameController.text.trim(),
+                          description: _descriptionController.text.trim(),
+                          images: listFile,
+                          locality: _localityController.text.trim(),
+                        );
+                        print(place.toString());
+                        context
+                            .read<PlaceCubit>()
+                            .placeRepository
+                            .savePlace(place);
+                        Navigator.pop(context);
+                      }
+                    },
                     child: Text(
                       'Enregistrer',
                       style: GoogleFonts.poppins(
