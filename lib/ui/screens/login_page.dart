@@ -113,8 +113,6 @@ class _LoginPageState extends State<LoginPage> {
                                   labelText: 'Adresse e-mail',
                                   labelStyle:
                                       const TextStyle(color: Colors.grey),
-                                  filled: true,
-                                  fillColor: Colors.transparent,
                                 ),
                               ),
                               const SizedBox(height: 30),
@@ -149,8 +147,6 @@ class _LoginPageState extends State<LoginPage> {
                                   labelText: 'Mot de passe',
                                   labelStyle:
                                       const TextStyle(color: Colors.grey),
-                                  filled: true,
-                                  fillColor: Colors.transparent,
                                 ),
                                 obscureText: true,
                               ),

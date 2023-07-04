@@ -109,8 +109,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                   labelText: 'Adresse e-mail',
                                   labelStyle:
                                       const TextStyle(color: Colors.grey),
-                                  filled: true,
-                                  fillColor: Colors.transparent,
                                 ),
                               ),
                               Padding(
