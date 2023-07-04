@@ -183,6 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ],
                               ),
+                              const SizedBox(height: 2),
                               ElevatedButton(
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
