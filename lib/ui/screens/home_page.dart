@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
+=======
+import 'package:flutter_journey_diary/ui/screens/place_creation_page.dart';
+import '../../blocs/place_cubit.dart';
+import '../shared/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_journey_diary/blocs/user_cubit.dart';
+>>>>>>> Stashed changes
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,8 +28,26 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           children: [
             DrawerHeader(
+<<<<<<< Updated upstream
               child: Image.asset('assets/images/logoJourneyDiary.png'),
             ),
+=======
+                child: Image.asset("assets/images/logoJourneyDiary.png")),
+            ListTile(
+              leading: const Icon(Icons.bed),
+                title: Text('Ajouter un lieu',
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PlaceCreationPage()));
+                }),
+>>>>>>> Stashed changes
             ListTile(
               leading: const Icon(Icons.home_outlined),
               title: const Text('Accueil'),
@@ -71,8 +97,20 @@ class _HomePageState extends State<HomePage> {
             colors: [
               Color(JourneyColor.white),
               Color(JourneyColor.lightOrange)
+<<<<<<< Updated upstream
             ],
           ),
+=======
+            ])),
+        child: Column(
+          children: [
+            ElevatedButton(onPressed: () => {
+              context.read<PlaceCubit>().placeRepository.getPlaces()
+      }
+
+            , child: Text("fea"))
+          ],
+>>>>>>> Stashed changes
         ),
       ),
     );

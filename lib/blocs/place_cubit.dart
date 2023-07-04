@@ -12,4 +12,11 @@ class PlaceCubit extends Cubit<bool> {
     emit(await placeRepository.savePlace(place));
   }
 
+  Future<void> getPlaces() async{
+    try{
+      emit(await placeRepository.getPlaces());
+    }
+
+  }
+
 }
