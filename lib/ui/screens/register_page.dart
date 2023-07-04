@@ -17,206 +17,254 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _formSubmit = false;
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
 
-    _emailController.addListener(() => setState(() => _formSubmit =
-        _emailController.text.isNotEmpty &&
-            _passwordController.text.isNotEmpty));
-
-    _passwordController.addListener(() => setState(() => _formSubmit =
-        _passwordController.text.isNotEmpty &&
-            _emailController.text.isNotEmpty));
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(JourneyColor.white),
+      resizeToAvoidBottomInset: false,
+      backgroundColor: const Color(JourneyColor.vomitOrange),
       body: SafeArea(
-        child: Container(
-          alignment: Alignment.center,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 40),
-                  child: Text(
-                    "S'inscrire",
-                    style: GoogleFonts.poppins(
-                      color: const Color(JourneyColor.black),
-                      fontWeight: FontWeight.w600,
-                      fontSize: JourneyFont.xxl,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 220,
+              width: MediaQuery.of(context).size.width,
+              color: const Color(JourneyColor.vomitOrange),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 100),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Créer son compte",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: JourneyFont.xxl,
+                      ),
                     ),
-                  ),
+                    Text(
+                      'Journey Diary',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                  ],
                 ),
-                Form(
-                  key: _formKey,
+              ),
+            ),
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: _emailController,
-                              validator: (value) =>
-                                  value == null || value.isEmpty
-                                      ? 'Le champ doit être renseigné'
-                                      : null,
-                              showCursor: false,
-                              style: const TextStyle(
-                                color: Color(JourneyColor.black),
-                                fontSize: JourneyFont.sm,
-                                decorationThickness: 0,
-                              ),
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.person_outlined),
-                                iconColor: Color(JourneyColor.vomitOrange),
-                                labelText: 'Adresse e-mail',
-                                labelStyle: TextStyle(
-                                  color: Color(JourneyColor.vomitOrange),
-                                  fontSize: JourneyFont.m,
-                                  fontWeight: FontWeight.w600,
-                                  decorationThickness: 0,
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 2,
-                                    color: Color(JourneyColor.vomitOrange),
+                        padding: const EdgeInsets.only(top: 50),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              Column(
+                                children: [
+                                  TextFormField(
+                                    controller: _emailController,
+                                    validator: (value) =>
+                                        value == null || value.isEmpty
+                                            ? 'Le champ doit être renseigné'
+                                            : null,
+                                    showCursor: false,
+                                    decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      labelText: 'Adresse e-mail',
+                                      labelStyle:
+                                          const TextStyle(color: Colors.grey),
+                                      filled: true,
+                                      fillColor: Colors.transparent,
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
-                            TextFormField(
-                              controller: _passwordController,
-                              validator: (value) =>
-                                  value == null || value.isEmpty
-                                      ? 'Le champ doit être renseigné'
-                                      : null,
-                              showCursor: false,
-                              style: const TextStyle(
-                                color: Color(JourneyColor.black),
-                                fontSize: JourneyFont.sm,
-                                decorationThickness: 0,
-                              ),
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.key_outlined),
-                                iconColor: Color(JourneyColor.vomitOrange),
-                                labelText: 'Mot de passe',
-                                labelStyle: TextStyle(
-                                  color: Color(JourneyColor.vomitOrange),
-                                  fontSize: JourneyFont.m,
-                                  fontWeight: FontWeight.w600,
-                                  decorationThickness: 0,
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 2,
-                                    color: Color(JourneyColor.vomitOrange),
+                                  const SizedBox(height: 30),
+                                  TextFormField(
+                                    controller: _passwordController,
+                                    validator: (value) =>
+                                        value == null || value.isEmpty
+                                            ? 'Le champ doit être renseigné'
+                                            : null,
+                                    showCursor: false,
+                                    decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      labelText: 'Mot de passe',
+                                      labelStyle:
+                                          const TextStyle(color: Colors.grey),
+                                      filled: true,
+                                      fillColor: Colors.transparent,
+                                    ),
+                                    obscureText: true,
                                   ),
-                                ),
+                                ],
                               ),
-                              obscureText: true,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40),
-                        child: ElevatedButton(
-                          onPressed: _formSubmit
-                              ? () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    final String email = _emailController.text;
-                                    final String password =
-                                        _passwordController.text;
-                                    final bool checkRegister = await context
-                                        .read<UserCubit>()
-                                        .register(email, password);
+                              Padding(
+                                padding: const EdgeInsets.only(top: 50),
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      final String email =
+                                          _emailController.text;
+                                      final String password =
+                                          _passwordController.text;
+                                      final bool checkRegister = await context
+                                          .read<UserCubit>()
+                                          .register(email, password);
 
-                                    if (!mounted) return;
+                                      if (!mounted) return;
 
-                                    late final SnackBar snackBar;
+                                      late final SnackBar snackBar;
 
-                                    if (checkRegister) {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginPage(),
-                                        ),
-                                      );
+                                      if (checkRegister) {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginPage(),
+                                          ),
+                                        );
 
-                                      snackBar = SnackBar(
-                                        content:
-                                            const Text("Inscription réussie"),
-                                        action: SnackBarAction(
-                                          label: 'Cacher',
-                                          onPressed: () {},
-                                        ),
-                                      );
-                                    } else {
-                                      snackBar = SnackBar(
-                                        content: const Text(
-                                            "Erreur lors de l'inscription"),
-                                        action: SnackBarAction(
-                                          label: 'Cacher',
-                                          onPressed: () {},
-                                        ),
-                                      );
+                                        snackBar = SnackBar(
+                                          content:
+                                              const Text('Inscription réussie'),
+                                          action: SnackBarAction(
+                                            label: 'Cacher',
+                                            textColor: const Color(
+                                                JourneyColor.vomitOrange),
+                                            onPressed: () {},
+                                          ),
+                                        );
+                                      } else {
+                                        snackBar = SnackBar(
+                                          content: const Text(
+                                              "Erreur lors de l'inscription"),
+                                          action: SnackBarAction(
+                                            label: 'Cacher',
+                                            textColor: const Color(
+                                                JourneyColor.vomitOrange),
+                                            onPressed: () {},
+                                          ),
+                                        );
+                                      }
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
                                     }
-
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  }
-                                }
-                              : null,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color(JourneyColor.vomitOrange),
-                            disabledBackgroundColor: Colors.black12,
-                          ),
-                          child: Text(
-                            'Inscription',
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
-                              fontSize: JourneyFont.m,
-                              color: const Color(JourneyColor.white),
-                            ),
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
-                        ),
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateProperty.resolveWith(
-                            (states) => Colors.transparent,
-                          ),
-                        ),
-                        child: Text(
-                          "J'ai déjà un compte",
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w600,
-                            fontSize: JourneyFont.xs,
-                            color: const Color(JourneyColor.black),
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: Size(
+                                      MediaQuery.of(context).size.width - 40,
+                                      50,
+                                    ),
+                                    backgroundColor:
+                                        const Color(JourneyColor.vomitOrange),
+                                  ),
+                                  child: Text(
+                                    'Inscription',
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: JourneyFont.m,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginPage(),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Vous avez déjà un compte ? ",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: JourneyFont.xs,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Se connecter !",
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: JourneyFont.xs,
+                                        color: const Color(
+                                            JourneyColor.vomitOrange),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
