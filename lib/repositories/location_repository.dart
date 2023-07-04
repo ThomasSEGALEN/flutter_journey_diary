@@ -8,56 +8,36 @@ class LocationRepository {
   final Dio dio = Dio(BaseOptions(baseUrl: dotenv.env['BASE_URL'] as String));
   String? token = Amadeus().token;
 
-  Future<Location> fetchLocation(String locationName) async {
-    String? accessToken = token ?? await Amadeus().generateAccessToken();
-    final response = await dio.get(
-      '/cities',
-      queryParameters: {
-        'keyword': locationName,
-        'max': 1,
-      },
-      options: Options(
-        headers: {"Authorization": "Bearer $accessToken"},
-      ),
-    );
-
-    // Test API constraints
-    final List<String> availableLocations = [
-      'Bangalore',
-      'Barcelona',
-      'Berlin',
-      'Dallas',
-      'London',
-      'New York',
-      'Paris',
-      'San Francisco',
-    ];
-
-    if (response.statusCode != 200 ||
-        !availableLocations.contains(locationName)) throw Exception();
-
-    final res = response.data as Map<String, dynamic>;
-    final data = res['data'] as List<dynamic>;
-    final locationJson = data[0] as Map<String, dynamic>;
-    final Location location = Location.fromJson(locationJson);
-
-    return location;
-  }
-
   Future<List<Location>> fetchLocations(String locationName) async {
     String? accessToken = token ?? await Amadeus().generateAccessToken();
     final response = await dio.get(
       '/cities',
       queryParameters: {
         'keyword': locationName,
-        'max': 10,
+        'max': 1, // Selects only the first element
       },
       options: Options(
         headers: {"Authorization": "Bearer $accessToken"},
       ),
     );
 
-    if (response.statusCode != 200) throw Exception();
+    // List of available cities in the Test API
+    final List<String> availableLocations = [
+      'bangalore',
+      'barcelona',
+      'berlin',
+      'dallas',
+      'london',
+      'new york',
+      'paris',
+      'san francisco',
+    ];
+
+    // Check whether the search contains a city from the list
+    if (response.statusCode != 200 ||
+        !availableLocations.contains(locationName.toLowerCase())) {
+      throw Exception();
+    }
 
     final List<Location> locations = [];
     final res = response.data as Map<String, dynamic>;
