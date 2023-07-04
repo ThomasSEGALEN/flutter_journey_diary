@@ -196,8 +196,6 @@ class _LoginPageState extends State<LoginPage> {
 
                                     if (!mounted) return;
 
-                                    late final SnackBar snackBar;
-
                                     if (checkLogin) {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
@@ -206,20 +204,20 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                       );
                                     } else {
-                                      snackBar = SnackBar(
-                                        content: const Text(
-                                            'Identifiants invalides'),
-                                        action: SnackBarAction(
-                                          label: 'Cacher',
-                                          textColor: const Color(
-                                              JourneyColor.congoPink),
-                                          onPressed: () {},
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: const Text(
+                                              'Identifiants invalides'),
+                                          action: SnackBarAction(
+                                            label: 'Cacher',
+                                            textColor: const Color(
+                                                JourneyColor.congoPink),
+                                            onPressed: () {},
+                                          ),
                                         ),
                                       );
                                     }
-
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
