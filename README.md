@@ -36,7 +36,7 @@ Pour la notation, les éléments suivants seront pris en compte :
 
 ## 4. Version Flutter/Dart :
 
-Flutter **3.10.5**
+Flutter **3.10.5**  
 Dart SDK **3.0.5**
 
 ## 5. Fonctionnalités :
@@ -69,5 +69,5 @@ Pour réaliser ce projet, nous avons utilisé l'API [Amadeus](https://developers
 
 ## 7. Contributeurs :
 
-Hugo TRINQUANT
+Hugo TRINQUANT  
 Thomas SÉGALEN
