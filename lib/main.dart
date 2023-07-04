@@ -52,7 +52,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Journey Diary',
-      theme: ThemeData(useMaterial3: true),
       home: BlocBuilder<UserCubit, bool>(
         builder: (context, state) =>
             state ? const HomePage() : const LoginPage(),
