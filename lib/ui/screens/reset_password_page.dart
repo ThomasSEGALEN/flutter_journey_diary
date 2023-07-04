@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
-import 'package:flutter_journey_diary/ui/screens/register_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
 import 'package:flutter_journey_diary/ui/shared/fonts.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'home_page.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({Key? key}) : super(key: key);
@@ -31,7 +28,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(JourneyColor.vomitOrange),
+      backgroundColor: const Color(JourneyColor.congoPink),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -40,7 +37,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             Container(
               height: 220,
               width: MediaQuery.of(context).size.width,
-              color: const Color(JourneyColor.vomitOrange),
+              color: const Color(JourneyColor.congoPink),
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, right: 100),
                 child: Column(
@@ -145,7 +142,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                           action: SnackBarAction(
                                             label: 'Cacher',
                                             textColor: const Color(
-                                                JourneyColor.vomitOrange),
+                                                JourneyColor.congoPink),
                                             onPressed: () {},
                                           ),
                                         );
@@ -156,7 +153,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                           action: SnackBarAction(
                                             label: 'Cacher',
                                             textColor: const Color(
-                                                JourneyColor.vomitOrange),
+                                                JourneyColor.congoPink),
                                             onPressed: () {},
                                           ),
                                         );
@@ -172,7 +169,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                       50,
                                     ),
                                     backgroundColor:
-                                        const Color(JourneyColor.vomitOrange),
+                                        const Color(JourneyColor.congoPink),
                                   ),
                                   child: Text(
                                     'Réinitialisation',
@@ -206,8 +203,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                       style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
                                         fontSize: JourneyFont.xs,
-                                        color: const Color(
-                                            JourneyColor.vomitOrange),
+                                        color:
+                                            const Color(JourneyColor.congoPink),
                                       ),
                                     ),
                                   ],

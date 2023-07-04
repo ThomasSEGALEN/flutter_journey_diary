@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(JourneyColor.vomitOrange),
+      backgroundColor: const Color(JourneyColor.congoPink),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               height: 220,
               width: MediaQuery.of(context).size.width,
-              color: const Color(JourneyColor.vomitOrange),
+              color: const Color(JourneyColor.congoPink),
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, right: 100),
                 child: Column(
@@ -176,8 +176,8 @@ class _LoginPageState extends State<LoginPage> {
                                       style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
                                         fontSize: JourneyFont.xs,
-                                        color: const Color(
-                                            JourneyColor.vomitOrange),
+                                        color:
+                                            const Color(JourneyColor.congoPink),
                                       ),
                                     ),
                                   ),
@@ -212,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                                         action: SnackBarAction(
                                           label: 'Cacher',
                                           textColor: const Color(
-                                              JourneyColor.vomitOrange),
+                                              JourneyColor.congoPink),
                                           onPressed: () {},
                                         ),
                                       );
@@ -227,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                                       MediaQuery.of(context).size.width - 40,
                                       50),
                                   backgroundColor:
-                                      const Color(JourneyColor.vomitOrange),
+                                      const Color(JourneyColor.congoPink),
                                 ),
                                 child: Text(
                                   'Connexion',
@@ -264,7 +264,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w600,
                                 fontSize: JourneyFont.xs,
-                                color: const Color(JourneyColor.vomitOrange),
+                                color: const Color(JourneyColor.congoPink),
                               ),
                             ),
                           ],

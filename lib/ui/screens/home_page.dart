@@ -27,9 +27,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text('Accueil'),
               onTap: () {},
             ),
-            const Divider(
-              color: Color(JourneyColor.black),
-            ),
+            const Divider(color: Colors.black),
             ListTile(
               leading: const Icon(Icons.logout_outlined),
               title: Text(
@@ -60,18 +58,15 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: const Text("Journey"),
+        backgroundColor: const Color(JourneyColor.congoPink),
+        title: const Text("Accueil"),
       ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Color(JourneyColor.white),
-              Color(JourneyColor.lightOrange)
-            ],
+            colors: [Colors.white, Color(JourneyColor.tangerine)],
           ),
         ),
       ),

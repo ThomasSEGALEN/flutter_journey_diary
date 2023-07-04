@@ -30,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(JourneyColor.vomitOrange),
+      backgroundColor: const Color(JourneyColor.congoPink),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -39,7 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
             Container(
               height: 220,
               width: MediaQuery.of(context).size.width,
-              color: const Color(JourneyColor.vomitOrange),
+              color: const Color(JourneyColor.congoPink),
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, right: 100),
                 child: Column(
@@ -187,7 +187,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           action: SnackBarAction(
                                             label: 'Cacher',
                                             textColor: const Color(
-                                                JourneyColor.vomitOrange),
+                                                JourneyColor.congoPink),
                                             onPressed: () {},
                                           ),
                                         );
@@ -198,7 +198,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           action: SnackBarAction(
                                             label: 'Cacher',
                                             textColor: const Color(
-                                                JourneyColor.vomitOrange),
+                                                JourneyColor.congoPink),
                                             onPressed: () {},
                                           ),
                                         );
@@ -214,7 +214,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       50,
                                     ),
                                     backgroundColor:
-                                        const Color(JourneyColor.vomitOrange),
+                                        const Color(JourneyColor.congoPink),
                                   ),
                                   child: Text(
                                     'Inscription',
@@ -248,8 +248,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                       style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
                                         fontSize: JourneyFont.xs,
-                                        color: const Color(
-                                            JourneyColor.vomitOrange),
+                                        color:
+                                            const Color(JourneyColor.congoPink),
                                       ),
                                     ),
                                   ],
