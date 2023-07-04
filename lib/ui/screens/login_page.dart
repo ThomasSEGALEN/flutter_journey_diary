@@ -183,13 +183,11 @@ class _LoginPageState extends State<LoginPage> {
                               ElevatedButton(
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
-                                    final String username =
-                                        _emailController.text;
-                                    final String password =
-                                        _passwordController.text;
-                                    final bool checkLogin = await context
-                                        .read<UserCubit>()
-                                        .login(username, password);
+                                    final bool checkLogin =
+                                        await context.read<UserCubit>().login(
+                                              _emailController.text.trim(),
+                                              _passwordController.text.trim(),
+                                            );
 
                                     if (!mounted) return;
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_journey_diary/blocs/location_cubit.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
@@ -118,8 +119,12 @@ class _HomePageState extends State<HomePage> {
                 labelText: 'Recherche',
                 labelStyle: const TextStyle(color: Colors.grey),
                 suffixIcon: IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     print('search');
+
+                    await context
+                        .read<LocationCubit>()
+                        .loadLocations(_locationController.text.trim());
                   },
                   icon: const Icon(Icons.search_outlined),
                 ),

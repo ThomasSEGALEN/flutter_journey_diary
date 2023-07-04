@@ -113,10 +113,11 @@ class PlaceCreationPage extends StatelessWidget {
                           listFile.add(file);
                         }
                         Place place = Place(
-                            name: _nameController.value.text,
-                            description: _descriptionController.value.text,
-                            images: listFile,
-                            locality: _localityController.value.text);
+                          name: _nameController.text.trim(),
+                          description: _descriptionController.text.trim(),
+                          images: listFile,
+                          locality: _localityController.text.trim(),
+                        );
                         print(place.toString());
                         context
                             .read<PlaceCubit>()

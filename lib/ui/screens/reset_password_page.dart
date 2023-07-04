@@ -116,12 +116,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                 child: ElevatedButton(
                                   onPressed: () async {
                                     if (_formKey.currentState!.validate()) {
-                                      final String username =
-                                          _emailController.text;
                                       final bool checkResetPassword =
                                           await context
                                               .read<UserCubit>()
-                                              .resetPassword(username);
+                                              .resetPassword(
+                                                  _emailController.text.trim());
 
                                       if (!mounted) return;
 

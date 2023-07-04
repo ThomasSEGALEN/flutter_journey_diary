@@ -157,13 +157,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                 child: ElevatedButton(
                                   onPressed: () async {
                                     if (_formKey.currentState!.validate()) {
-                                      final String email =
-                                          _emailController.text;
-                                      final String password =
-                                          _passwordController.text;
                                       final bool checkRegister = await context
                                           .read<UserCubit>()
-                                          .register(email, password);
+                                          .register(
+                                            _emailController.text.trim(),
+                                            _passwordController.text.trim(),
+                                          );
 
                                       if (!mounted) return;
 
