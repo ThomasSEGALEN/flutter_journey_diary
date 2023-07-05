@@ -1,22 +1,22 @@
 class Location {
   String name;
-  double latitude;
-  double longitude;
+  Map<String, dynamic> address;
+  Map<String, dynamic> geoCode;
 
   Location({
     required this.name,
-    required this.latitude,
-    required this.longitude,
+    required this.address,
+    required this.geoCode,
   });
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
         name: json['name'],
-        latitude: json['geoCode']['latitude'],
-        longitude: json['geoCode']['longitude'],
+        address: json['address'],
+        geoCode: json['geoCode'],
       );
 
   @override
   String toString() {
-    return 'Location{name: $name, latitude: $latitude, longitude: $longitude}';
+    return 'Location{name: $name, address: $address, geoCode: $geoCode}';
   }
 }

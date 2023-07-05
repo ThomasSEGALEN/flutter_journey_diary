@@ -5,8 +5,6 @@ import 'package:flutter_journey_diary/ui/screens/home_page.dart';
 import 'package:flutter_journey_diary/ui/screens/register_page.dart';
 import 'package:flutter_journey_diary/ui/screens/reset_password_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
-import 'package:flutter_journey_diary/ui/shared/fonts.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -31,44 +29,48 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(JourneyColor.congoPink),
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: 220,
-              width: MediaQuery.of(context).size.width,
-              color: const Color(JourneyColor.congoPink),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 100),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Se connecter à son compte',
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: JourneyFont.xxl,
+        top: false,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).viewPadding.top),
+                height: 220,
+                width: MediaQuery.of(context).size.width,
+                color: const Color(JDColor.congoPink),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 100,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Se connecter à son compte',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineLarge
+                            ?.copyWith(color: Colors.white),
                       ),
-                    ),
-                    Text(
-                      'Journey Diary',
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                      Text(
+                        'Journey Diary',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall
+                            ?.copyWith(color: Colors.white),
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Container(
+              Container(
                 color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -88,7 +90,6 @@ class _LoginPageState extends State<LoginPage> {
                                     value == null || value.isEmpty
                                         ? 'Le champ doit être renseigné'
                                         : null,
-                                showCursor: false,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
@@ -122,7 +123,6 @@ class _LoginPageState extends State<LoginPage> {
                                     value == null || value.isEmpty
                                         ? 'Le champ doit être renseigné'
                                         : null,
-                                showCursor: false,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
@@ -169,65 +169,73 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                     child: Text(
                                       "Mot de passe oublié ?",
-                                      style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: JourneyFont.xs,
-                                        color:
-                                            const Color(JourneyColor.congoPink),
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium
+                                          ?.copyWith(
+                                              color: const Color(
+                                                  JDColor.congoPink)),
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 2),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    final bool checkLogin =
-                                        await context.read<UserCubit>().login(
-                                              _emailController.text.trim(),
-                                              _passwordController.text.trim(),
-                                            );
+                              Padding(
+                                padding: const EdgeInsets.only(top: 2),
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      final bool checkLogin =
+                                          await context.read<UserCubit>().login(
+                                                _emailController.text.trim(),
+                                                _passwordController.text.trim(),
+                                              );
 
-                                    if (!mounted) return;
+                                      if (!mounted) return;
 
-                                    if (checkLogin) {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const HomePage(),
-                                        ),
-                                      );
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: const Text(
-                                              'Identifiants invalides'),
-                                          action: SnackBarAction(
-                                            label: 'Cacher',
-                                            textColor: const Color(
-                                                JourneyColor.congoPink),
-                                            onPressed: () {},
+                                      if (checkLogin) {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const HomePage(),
                                           ),
-                                        ),
-                                      );
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Identifiants invalides',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(
+                                                      color: Colors.white),
+                                            ),
+                                            action: SnackBarAction(
+                                              label: 'Cacher',
+                                              textColor: const Color(
+                                                  JDColor.congoPink),
+                                              onPressed: () {},
+                                            ),
+                                          ),
+                                        );
+                                      }
                                     }
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: Size(
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: Size(
                                       MediaQuery.of(context).size.width - 40,
-                                      50),
-                                  backgroundColor:
-                                      const Color(JourneyColor.congoPink),
-                                ),
-                                child: Text(
-                                  'Connexion',
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: JourneyFont.m,
-                                    color: Colors.white,
+                                      50,
+                                    ),
+                                    backgroundColor:
+                                        const Color(JDColor.congoPink),
+                                  ),
+                                  child: Text(
+                                    'Connexion',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -247,18 +255,18 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             Text(
                               "Vous n'avez pas de compte ? ",
-                              style: GoogleFonts.poppins(
-                                fontSize: JourneyFont.xs,
-                                color: Colors.black,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(color: Colors.grey),
                             ),
                             Text(
                               "S'inscrire !",
-                              style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w600,
-                                fontSize: JourneyFont.xs,
-                                color: const Color(JourneyColor.congoPink),
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(
+                                      color: const Color(JDColor.congoPink)),
                             ),
                           ],
                         ),
@@ -267,8 +275,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
