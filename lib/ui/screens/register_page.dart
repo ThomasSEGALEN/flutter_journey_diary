@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_journey_diary/ui/shared/colors.dart';
-import 'package:flutter_journey_diary/ui/shared/fonts.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
+import 'package:flutter_journey_diary/ui/shared/colors.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -29,44 +27,48 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(JourneyColor.congoPink),
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: 220,
-              width: MediaQuery.of(context).size.width,
-              color: const Color(JourneyColor.congoPink),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 100),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Créer son compte",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: JourneyFont.xxl,
+        top: false,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).viewPadding.top),
+                height: 220,
+                width: MediaQuery.of(context).size.width,
+                color: const Color(JDColor.congoPink),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 100,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Créer son compte",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineLarge
+                            ?.copyWith(color: Colors.white),
                       ),
-                    ),
-                    Text(
-                      'Journey Diary',
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                      Text(
+                        'Journey Diary',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall
+                            ?.copyWith(color: Colors.white),
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Container(
+              Container(
                 color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -175,23 +177,33 @@ class _RegisterPageState extends State<RegisterPage> {
                                         );
 
                                         snackBar = SnackBar(
-                                          content:
-                                              const Text('Inscription réussie'),
+                                          content: Text(
+                                            'Inscription réussie',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(color: Colors.white),
+                                          ),
                                           action: SnackBarAction(
                                             label: 'Cacher',
-                                            textColor: const Color(
-                                                JourneyColor.congoPink),
+                                            textColor:
+                                                const Color(JDColor.congoPink),
                                             onPressed: () {},
                                           ),
                                         );
                                       } else {
                                         snackBar = SnackBar(
-                                          content: const Text(
-                                              "Erreur lors de l'inscription"),
+                                          content: Text(
+                                            "Erreur lors de l'inscription",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(color: Colors.white),
+                                          ),
                                           action: SnackBarAction(
                                             label: 'Cacher',
-                                            textColor: const Color(
-                                                JourneyColor.congoPink),
+                                            textColor:
+                                                const Color(JDColor.congoPink),
                                             onPressed: () {},
                                           ),
                                         );
@@ -207,15 +219,14 @@ class _RegisterPageState extends State<RegisterPage> {
                                       50,
                                     ),
                                     backgroundColor:
-                                        const Color(JourneyColor.congoPink),
+                                        const Color(JDColor.congoPink),
                                   ),
                                   child: Text(
                                     'Inscription',
-                                    style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: JourneyFont.m,
-                                      color: Colors.white,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -231,19 +242,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                   children: [
                                     Text(
                                       "Vous avez déjà un compte ? ",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: JourneyFont.xs,
-                                        color: Colors.black,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium
+                                          ?.copyWith(color: Colors.grey),
                                     ),
                                     Text(
                                       "Se connecter !",
-                                      style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: JourneyFont.xs,
-                                        color:
-                                            const Color(JourneyColor.congoPink),
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium
+                                          ?.copyWith(
+                                              color: const Color(
+                                                  JDColor.congoPink)),
                                     ),
                                   ],
                                 ),
@@ -256,8 +267,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
