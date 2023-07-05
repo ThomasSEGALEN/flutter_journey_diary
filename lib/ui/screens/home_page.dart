@@ -6,10 +6,15 @@ import 'package:flutter_journey_diary/blocs/place_state.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/models/data_state.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
+import 'package:flutter_journey_diary/ui/screens/place_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
 import 'package:flutter_journey_diary/ui/screens/place_creation_page.dart';
+import 'package:transparent_image/transparent_image.dart';
+import '../../blocs/location_cubit.dart';
 import '../../blocs/place_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../shared/fonts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -78,7 +83,6 @@ class _HomePageState extends State<HomePage> {
                       await context.read<UserCubit>().logout();
 
                   if (!mounted) return;
-
                 if (!checkLogout) {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
@@ -110,114 +114,126 @@ class _HomePageState extends State<HomePage> {
             color: Color(JourneyColor.lightOrange)
           ),
             child: Column(
-          children: [
-            Text(
-              "Vos Voyages",
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w900,
-                fontSize: 25,
-                color: Colors.grey,
-              ),
-            ),
-            BlocBuilder<PlaceCubit, PlaceState>(builder: (context, state) {
-              switch (state.dataState) {
-                case DataState.loading:
-                  return const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Color(JourneyColor.vomitOrange)),
-                  );
-                case DataState.error:
-                  return const Icon(Icons.error);
-                case DataState.loaded:
-                  return Expanded(
-                    child: SizedBox(
-                      child: ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        padding: const EdgeInsets.only(bottom: 80),
-                        itemCount: state.placesList!.length,
-                        itemBuilder: (BuildContext contexte, int index) {
-                          return Column(
-                            children: [
-                              Card(
-                                // Define the shape of the card
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                // Define how the card's content should be clipped
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                // Define the child widget of the card
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    // Add padding around the row widget
-                                    Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          if (!state
-                                              .placesList![index].urls!.isEmpty)
-                                            Image.network(
-                                              state.placesList![index].urls![0],
-                                              height: 100,
-                                              width: 100,
-                                              fit: BoxFit.cover,
-                                            )
-                                          else
-                                            SizedBox(
-                                              width: 100,
-                                              height: 100,
-                                            ),
-                                          // Add an image widget to display an image
-                                          // Add some spacing between the image and the text
-                                          Container(width: 20),
-                                          // Add an expanded widget to take up the remaining horizontal space
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                // Add some spacing between the top of the card and the title
-                                                Container(height: 5),
-                                                // Add a title widget
-                                                Text(
-                                                  state.placesList![index].name,
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                ),
-                                                // Add some spacing between the title and the subtitle
-                                                Container(height: 5),
-                                                // Add a subtitle widget
-                                                Text(
-                                                  state.placesList![index]
-                                                      .locality,
-                                                  style: const TextStyle(
-                                                    color: Color(JourneyColor
-                                                        .vomitOrange),
+              children: [
+                Text(
+                  "Vos Voyages",
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 25,
+                    color: Colors.grey,
+                  ),
+                ),
+                BlocBuilder<PlaceCubit, PlaceState>(builder: (context, state) {
+                  switch (state.dataState) {
+                    case DataState.loading:
+                      return const CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Color(JourneyColor.terraCotta)),
+                      );
+                    case DataState.error:
+                      return const Icon(Icons.error);
+                    case DataState.loaded:
+                      return Expanded(
+                        child: SizedBox(
+                          child: ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            padding: const EdgeInsets.only(bottom: 80),
+                            itemCount: state.placesList!.length,
+                            itemBuilder: (BuildContext contexte, int index) {
+                              return GestureDetector(
+                                onTap: () => {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => PlacePage(
+                                              state.placesList![index])))
+                                },
+                                child: Card(
+                                  // Define the shape of the card
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  // Define how the card's content should be clipped
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  // Define the child widget of the card
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      // Add padding around the row widget
+                                      Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            if (state.placesList![index].urls!
+                                                .isNotEmpty)
+                                              FadeInImage.memoryNetwork(
+                                                image: state.placesList![index]
+                                                    .urls![0],
+                                                height: 100,
+                                                width: 100,
+                                                fit: BoxFit.cover,
+                                                placeholder: kTransparentImage,
+                                              )
+                                            else
+                                              const SizedBox(
+                                                width: 100,
+                                                height: 100,
+                                              ),
+                                            // Add an image widget to display an image
+                                            // Add some spacing between the image and the text
+                                            Container(width: 20),
+                                            // Add an expanded widget to take up the remaining horizontal space
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  // Add some spacing between the top of the card and the title
+                                                  Container(height: 5),
+                                                  // Add a title widget
+                                                  Text(
+                                                    state.placesList![index]
+                                                        .name,
+                                                    style: TextStyle(
+                                                        color: Colors.black),
                                                   ),
-                                                ),
-                                                // Add some spacing between the subtitle and the text
-                                                Container(height: 10),
-                                                // Add a text widget to display some text
-                                                Text(
-                                                  state.placesList![index]
-                                                              .description ==
-                                                          null
-                                                      ? ""
-                                                      : state.placesList![index]
-                                                          .description!,
-                                                  maxLines: 2,
-                                                  style: TextStyle(
-                                                      color: Colors.grey),
-                                                ),
-                                              ],
+                                                  // Add some spacing between the title and the subtitle
+                                                  Container(height: 5),
+                                                  // Add a subtitle widget
+                                                  Text(
+                                                    state.placesList![index]
+                                                        .locality,
+                                                    style: const TextStyle(
+                                                      color: Color(JourneyColor
+                                                          .terraCotta),
+                                                    ),
+                                                  ),
+                                                  // Add some spacing between the subtitle and the text
+                                                  Container(height: 10),
+                                                  // Add a text widget to display some text
+                                                  Text(
+                                                    state.placesList![index]
+                                                                .description ==
+                                                            null
+                                                        ? ""
+                                                        : state
+                                                            .placesList![index]
+                                                            .description!,
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        color: Colors.grey),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],

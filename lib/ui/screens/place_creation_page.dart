@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 class PlaceCreationPage extends StatelessWidget {
   PlaceCreationPage({Key? key}) : super(key: key);
 
-  XFile? _image;
+  List<XFile>? _images;
 
   final picker = ImagePicker();
   final _formKey = GlobalKey<FormState>();
@@ -19,9 +19,9 @@ class PlaceCreationPage extends StatelessWidget {
   final TextEditingController _localityController = TextEditingController();
 
   Future getImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    _image = pickedFile;
-    print(_image?.path);
+    final pickedFile = await picker.pickMultiImage();
+    _images = pickedFile;
+    _images?.forEach((element) => print(element.path) );
   }
 
   @override
@@ -104,14 +104,15 @@ class PlaceCreationPage extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: _formSubmit
-                        ? () async {
+                    onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               context.read<PlaceCubit>().getPlaces();
                               List<File> listFile = [];
-                              if (_image != null) {
-                                File file = File(_image!.path);
-                                listFile.add(file);
+                              if (_images != null) {
+                                for(var i in _images!) {
+                                  File file = File(i.path);
+                                  listFile.add(file);
+                                }
                               }
                               Place place = Place(
                                 locality: _localityController.value.text,
@@ -126,8 +127,7 @@ class PlaceCreationPage extends StatelessWidget {
                                   .savePlace(place);
                               Navigator.pop(context);
                             }
-                          }
-                        : null,
+                          },
                     child: Text(
                       'Enregistrer',
                       style: GoogleFonts.poppins(
