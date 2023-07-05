@@ -1,24 +1,15 @@
+
 import 'dart:io';
 
 class Place {
   String name;
   String? description;
-  List<File> images;
+  List<File>? images;
   String locality;
+  List<String>? urls;
 
-  Place({
-    required this.name,
-    this.description,
-    required this.images,
-    required this.locality,
-  });
+  Place({required this.locality,required this.name, this.description,this.images, this.urls});
 
-  factory Place.fromJson(Map<String, dynamic> json) => Place(
-        name: json['name'],
-        description: json['description'],
-        images: json['images'],
-        locality: json['locality'],
-      );
 
   @override
   String toString() {
