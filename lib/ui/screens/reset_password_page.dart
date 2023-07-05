@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
-import 'package:flutter_journey_diary/ui/shared/fonts.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({Key? key}) : super(key: key);
@@ -27,44 +25,48 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(JourneyColor.congoPink),
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: 220,
-              width: MediaQuery.of(context).size.width,
-              color: const Color(JourneyColor.congoPink),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 100),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Mot de passe oublié',
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: JourneyFont.xxl,
+        top: false,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).viewPadding.top),
+                height: 220,
+                width: MediaQuery.of(context).size.width,
+                color: const Color(JDColor.congoPink),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 100,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Mot de passe oublié',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineLarge
+                            ?.copyWith(color: Colors.white),
                       ),
-                    ),
-                    Text(
-                      'Recevez un e-mail pour réinitialiser votre mot de passe',
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                      Text(
+                        'Recevez un e-mail pour réinitialiser votre mot de passe',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall
+                            ?.copyWith(color: Colors.white),
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Container(
+              Container(
                 color: Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -84,7 +86,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                     value == null || value.isEmpty
                                         ? 'Le champ doit être renseigné'
                                         : null,
-                                showCursor: false,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
@@ -135,22 +136,33 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                         );
 
                                         snackBar = SnackBar(
-                                          content: const Text('E-mail envoyé'),
+                                          content: Text(
+                                            'E-mail envoyé',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(color: Colors.white),
+                                          ),
                                           action: SnackBarAction(
                                             label: 'Cacher',
-                                            textColor: const Color(
-                                                JourneyColor.congoPink),
+                                            textColor:
+                                                const Color(JDColor.congoPink),
                                             onPressed: () {},
                                           ),
                                         );
                                       } else {
                                         snackBar = SnackBar(
-                                          content: const Text(
-                                              "Erreur lors de l'envoi"),
+                                          content: Text(
+                                            "Erreur lors de l'envoi",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(color: Colors.white),
+                                          ),
                                           action: SnackBarAction(
                                             label: 'Cacher',
-                                            textColor: const Color(
-                                                JourneyColor.congoPink),
+                                            textColor:
+                                                const Color(JDColor.congoPink),
                                             onPressed: () {},
                                           ),
                                         );
@@ -166,15 +178,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                       50,
                                     ),
                                     backgroundColor:
-                                        const Color(JourneyColor.congoPink),
+                                        const Color(JDColor.congoPink),
                                   ),
                                   child: Text(
                                     'Réinitialisation',
-                                    style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: JourneyFont.m,
-                                      color: Colors.white,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -190,19 +201,19 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                   children: [
                                     Text(
                                       "Revenir à l'écran de ",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: JourneyFont.xs,
-                                        color: Colors.black,
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium
+                                          ?.copyWith(color: Colors.grey),
                                     ),
                                     Text(
                                       'connexion',
-                                      style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: JourneyFont.xs,
-                                        color:
-                                            const Color(JourneyColor.congoPink),
-                                      ),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium
+                                          ?.copyWith(
+                                              color: const Color(
+                                                  JDColor.congoPink)),
                                     ),
                                   ],
                                 ),
@@ -215,8 +226,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_journey_diary/models/amadeus.dart';
@@ -9,17 +11,26 @@ class LocationRepository {
   String? token = Amadeus().token;
 
   Future<List<Location>> fetchLocations(String locationName) async {
-    String? accessToken = token ?? await Amadeus().generateAccessToken();
-    final response = await dio.get(
-      '/cities',
-      queryParameters: {
-        'keyword': locationName,
-        'max': 1, // Selects only the first element
-      },
-      options: Options(
-        headers: {"Authorization": "Bearer $accessToken"},
-      ),
-    );
+    final String? accessToken = token ?? await Amadeus().generateAccessToken();
+    late final Response response;
+
+    try {
+      response = await dio.get(
+        '/cities',
+        queryParameters: {
+          'keyword': locationName,
+          'max': 10, // Selects only the first element
+        },
+        options: Options(
+          headers: {"Authorization": "Bearer $accessToken"},
+        ),
+      );
+    } catch (e) {
+      log(e.toString());
+
+      Amadeus().token = null;
+      fetchLocations(locationName);
+    }
 
     // List of available cities in the Test API
     final List<String> availableLocations = [
@@ -34,8 +45,8 @@ class LocationRepository {
     ];
 
     // Check whether the search contains a city from the list
-    if (response.statusCode != 200 ||
-        !availableLocations.contains(locationName.toLowerCase())) {
+    if (response.statusCode != 200) {
+      /*|| !availableLocations.contains(locationName.toLowerCase())*/
       throw Exception();
     }
 
@@ -53,17 +64,26 @@ class LocationRepository {
 
   Future<List<LocationPlace>> fetchPlaces(Location location) async {
     String? accessToken = token ?? await Amadeus().generateAccessToken();
-    final response = await dio.get(
-      '/pois',
-      queryParameters: {
-        'latitude': location.latitude,
-        'longitude': location.longitude,
-        'page': 1,
-      },
-      options: Options(
-        headers: {"Authorization": "Bearer $accessToken"},
-      ),
-    );
+    late final Response response;
+
+    try {
+      response = await dio.get(
+        '/pois',
+        queryParameters: {
+          'latitude': location.geoCode['latitude'],
+          'longitude': location.geoCode['longitude'],
+          'page': 1,
+        },
+        options: Options(
+          headers: {"Authorization": "Bearer $accessToken"},
+        ),
+      );
+    } catch (e) {
+      log(e.toString());
+
+      Amadeus().token = null;
+      fetchPlaces(location);
+    }
 
     if (response.statusCode != 200) throw Exception();
 
