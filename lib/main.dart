@@ -6,9 +6,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_journey_diary/blocs/location_cubit.dart';
 import 'package:flutter_journey_diary/blocs/place_cubit.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
 import 'package:flutter_journey_diary/models/amadeus.dart';
+import 'package:flutter_journey_diary/repositories/location_repository.dart';
 import 'package:flutter_journey_diary/repositories/place_repository.dart';
 import 'package:flutter_journey_diary/repositories/user_repository.dart';
 import 'package:flutter_journey_diary/ui/screens/home_page.dart';
@@ -20,12 +22,14 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  final UserRepository userRepository =
-      UserRepository(FirebaseAuth.instance, FirebaseFirestore.instance);
+  final LocationRepository locationRepository = LocationRepository();
   final PlaceRepository placeRepository = PlaceRepository(
-      FirebaseDatabase.instance,
-      FirebaseAuth.instance,
-      FirebaseStorage.instance);
+    FirebaseDatabase.instance,
+    FirebaseAuth.instance,
+    FirebaseStorage.instance,
+  );
+  final UserRepository userRepository =
+  UserRepository(FirebaseAuth.instance, FirebaseFirestore.instance);
 
   await userRepository.init();
 
@@ -33,10 +37,13 @@ Future<void> main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => UserCubit(userRepository),
+          create: (_) => LocationCubit(locationRepository),
         ),
         BlocProvider(
           create: (_) => PlaceCubit(placeRepository),
+        ),
+        BlocProvider(
+          create: (_) => UserCubit(userRepository),
         ),
       ],
       child: const MyApp(),
@@ -50,13 +57,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Journey Diary',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.transparent,
-        ),
-        useMaterial3: true,
-      ),
+      title: 'Journey Diary',
       home: BlocBuilder<UserCubit, bool>(
         builder: (context, state) =>
             state ? const HomePage() : const LoginPage(),

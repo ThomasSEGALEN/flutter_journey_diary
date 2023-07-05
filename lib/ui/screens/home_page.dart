@@ -17,6 +17,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final TextEditingController _locationController = TextEditingController();
+
+  @override
+  void dispose() {
+    _locationController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     context.read<PlaceCubit>().getPlaces();
@@ -66,18 +75,83 @@ class _HomePageState extends State<HomePage> {
 
                   if (!mounted) return;
 
-                  if (!checkLogout) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ),
-                      (route) => false,
-                    );
-                  }
-                },
+                if (!checkLogout) {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                    (route) => false,
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+      appBar: AppBar(
+        backgroundColor: const Color(JourneyColor.congoPink),
+        title: const Text("Accueil"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            Column(
+              children: [
+                Text(
+                  'Trouvez un lieu mémorable',
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: JourneyFont.l,
+                  ),
+                ),
+                Text(
+                  'dans la ville de votre choix',
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: JourneyFont.l,
+                  ),
+                ),
+              ],
+            ),
+            TextField(
+              controller: _locationController,
+              showCursor: false,
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                labelText: 'Recherche',
+                labelStyle: const TextStyle(color: Colors.grey),
+                suffixIcon: IconButton(
+                  onPressed: () async {
+                    print('search');
+
+                    await context
+                        .read<LocationCubit>()
+                        .loadLocations(_locationController.text.trim());
+                  },
+                  icon: const Icon(Icons.search_outlined),
+                ),
+                suffixIconColor: Colors.grey,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         appBar: AppBar(
           backgroundColor: Colors.transparent,

@@ -18,7 +18,6 @@ class PlaceCreationPage extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _localityController = TextEditingController();
-  bool _formSubmit = true;
 
   Future getImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
