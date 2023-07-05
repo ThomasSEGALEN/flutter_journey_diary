@@ -37,82 +37,80 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     context.read<PlaceCubit>().getPlaces();
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-              child: Image.asset('assets/images/logoJourneyDiary.png'),
-            ),
-            ListTile(
-                  leading: const Icon(Icons.bed),
-                  title: Text(
-                    'Ajouter un lieu',
-                     style: Theme.of(context).textTheme.titleMedium,
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                child: Image.asset('assets/images/logoJourneyDiary.png'),
+              ),
+              ListTile(
+                leading: const Icon(Icons.bed),
+                title: Text(
+                  'Ajouter un lieu',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PlaceCreationPage(),
                   ),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PlaceCreationPage(),
-                     ),
-                  ),
-            ),
-            Divider(color: Colors.grey.shade300),
-            ListTile(
-              leading: const Icon(
-                Icons.home_outlined,
-                color: Colors.black,
+                ),
               ),
-              title: Text(
-                'Accueil',
-                style: Theme.of(context).textTheme.titleMedium,
+              Divider(color: Colors.grey.shade300),
+              ListTile(
+                leading: const Icon(
+                  Icons.home_outlined,
+                  color: Colors.black,
+                ),
+                title: Text(
+                  'Accueil',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                onTap: () => Navigator.of(context).pop(),
               ),
-              onTap: () => Navigator.of(context).pop(),
-            ),
-            Divider(color: Colors.grey.shade300),
-            ListTile(
-              leading: const Icon(
-                Icons.logout_outlined,
-                color: Colors.black,
-              ),
-              title: Text(
-                'Se déconnecter',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
+              Divider(color: Colors.grey.shade300),
+              ListTile(
+                leading: const Icon(
+                  Icons.logout_outlined,
+                  color: Colors.black,
+                ),
+                title: Text(
+                  'Se déconnecter',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
                 onTap: () async {
                   final bool checkLogout =
                       await context.read<UserCubit>().logout();
 
                   if (!mounted) return;
-                if (!checkLogout) {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
-                    ),
-                    (route) => false,
-                  );
-                }
-              },
+                  if (!checkLogout) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                      (route) => false,
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+        appBar: AppBar(
+          title: const Text("Accueil"),
+          backgroundColor: const Color(JDColor.congoPink),
+          actions: [
+            IconButton(
+              onPressed: () => showSearch(
+                context: context,
+                delegate: _SearchLocation(),
+              ),
+              icon: const Icon(Icons.search_outlined),
             ),
           ],
         ),
-      ),
-      appBar: AppBar(
-        title: const Text("Accueil"),
-        backgroundColor: const Color(JDColor.congoPink),
-        actions: [
-          IconButton(
-            onPressed: () => showSearch(
-              context: context,
-              delegate: _SearchLocation(),
-            ),
-            icon: const Icon(Icons.search_outlined),
-          ),
-        ],
-      ),
-      body: Container(
-          decoration: BoxDecoration(
-            color: Color(JourneyColor.lightOrange)
-          ),
+        body: Container(
+            decoration: BoxDecoration(color: Color(JDColor.atomicTangerine)),
             child: Column(
               children: [
                 Text(
@@ -128,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                     case DataState.loading:
                       return const CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(
-                            Color(JourneyColor.terraCotta)),
+                            Color(JDColor.terraCotta)),
                       );
                     case DataState.error:
                       return const Icon(Icons.error);
@@ -141,115 +139,115 @@ class _HomePageState extends State<HomePage> {
                             itemCount: state.placesList!.length,
                             itemBuilder: (BuildContext contexte, int index) {
                               return GestureDetector(
-                                onTap: () => {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => PlacePage(
-                                              state.placesList![index])))
-                                },
-                                child: Card(
-                                  // Define the shape of the card
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  // Define how the card's content should be clipped
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  // Define the child widget of the card
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      // Add padding around the row widget
-                                      Padding(
-                                        padding: const EdgeInsets.all(15),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            if (state.placesList![index].urls!
-                                                .isNotEmpty)
-                                              FadeInImage.memoryNetwork(
-                                                image: state.placesList![index]
-                                                    .urls![0],
-                                                height: 100,
-                                                width: 100,
-                                                fit: BoxFit.cover,
-                                                placeholder: kTransparentImage,
-                                              )
-                                            else
-                                              const SizedBox(
-                                                width: 100,
-                                                height: 100,
-                                              ),
-                                            // Add an image widget to display an image
-                                            // Add some spacing between the image and the text
-                                            Container(width: 20),
-                                            // Add an expanded widget to take up the remaining horizontal space
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  // Add some spacing between the top of the card and the title
-                                                  Container(height: 5),
-                                                  // Add a title widget
-                                                  Text(
-                                                    state.placesList![index]
-                                                        .name,
-                                                    style: TextStyle(
-                                                        color: Colors.black),
-                                                  ),
-                                                  // Add some spacing between the title and the subtitle
-                                                  Container(height: 5),
-                                                  // Add a subtitle widget
-                                                  Text(
-                                                    state.placesList![index]
-                                                        .locality,
-                                                    style: const TextStyle(
-                                                      color: Color(JourneyColor
-                                                          .terraCotta),
+                                  onTap: () => {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => PlacePage(
+                                                    state.placesList![index])))
+                                      },
+                                  child: Card(
+                                    // Define the shape of the card
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    // Define how the card's content should be clipped
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    // Define the child widget of the card
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        // Add padding around the row widget
+                                        Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              if (state.placesList![index].urls!
+                                                  .isNotEmpty)
+                                                FadeInImage.memoryNetwork(
+                                                  image: state
+                                                      .placesList![index]
+                                                      .urls![0],
+                                                  height: 100,
+                                                  width: 100,
+                                                  fit: BoxFit.cover,
+                                                  placeholder:
+                                                      kTransparentImage,
+                                                )
+                                              else
+                                                const SizedBox(
+                                                  width: 100,
+                                                  height: 100,
+                                                ),
+                                              // Add an image widget to display an image
+                                              // Add some spacing between the image and the text
+                                              Container(width: 20),
+                                              // Add an expanded widget to take up the remaining horizontal space
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    // Add some spacing between the top of the card and the title
+                                                    Container(height: 5),
+                                                    // Add a title widget
+                                                    Text(
+                                                      state.placesList![index]
+                                                          .name,
+                                                      style: TextStyle(
+                                                          color: Colors.black),
                                                     ),
-                                                  ),
-                                                  // Add some spacing between the subtitle and the text
-                                                  Container(height: 10),
-                                                  // Add a text widget to display some text
-                                                  Text(
-                                                    state.placesList![index]
-                                                                .description ==
-                                                            null
-                                                        ? ""
-                                                        : state
-                                                            .placesList![index]
-                                                            .description!,
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                        color: Colors.grey),
-                                                  ),
-                                                ],
+                                                    // Add some spacing between the title and the subtitle
+                                                    Container(height: 5),
+                                                    // Add a subtitle widget
+                                                    Text(
+                                                      state.placesList![index]
+                                                          .locality,
+                                                      style: const TextStyle(
+                                                        color: Color(
+                                                            JDColor.terraCotta),
+                                                      ),
+                                                    ),
+                                                    // Add some spacing between the subtitle and the text
+                                                    Container(height: 10),
+                                                    // Add a text widget to display some text
+                                                    Text(
+                                                      state.placesList![index]
+                                                                  .description ==
+                                                              null
+                                                          ? ""
+                                                          : state
+                                                              .placesList![
+                                                                  index]
+                                                              .description!,
+                                                      maxLines: 2,
+                                                      style: TextStyle(
+                                                          color: Colors.grey),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                        separatorBuilder: (BuildContext contexte, int index) {
-                          return const SizedBox(width: 20);
-                        },
-                      ),
-                    ),
-                  );
-              }
-            })
-          ],
-        )));
-    );
+                                      ],
+                                    ),
+                                  ));
+                            },
+                            separatorBuilder:
+                                (BuildContext contexte, int index) {
+                              return const SizedBox(width: 20);
+                            },
+                          ),
+                        ),
+                      );
+                  }
+                })
+              ],
+            )));
   }
 }
 

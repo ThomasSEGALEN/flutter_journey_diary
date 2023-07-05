@@ -61,13 +61,13 @@ class PlacePage extends StatelessWidget {
         Text(place.locality,style: GoogleFonts.poppins(
           fontWeight: FontWeight.w900,
           fontSize: 25,
-          color: const Color(JourneyColor.terraCotta),
+          color: const Color(JDColor.terraCotta),
         ),),
           Text(place.description!,
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.w900,
               fontSize: 25,
-              color: const Color(JourneyColor.terraCotta),
+              color: const Color(JDColor.terraCotta),
             ),)
         ],
       ),
