@@ -104,27 +104,30 @@ class PlaceCreationPage extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        List<File> listFile = [];
-                        if (_image != null) {
-                          File file = File(_image!.path);
-                          listFile.add(file);
-                        }
-                        Place place = Place(
-                          name: _nameController.text.trim(),
-                          description: _descriptionController.text.trim(),
-                          images: listFile,
-                          locality: _localityController.text.trim(),
-                        );
-                        print(place.toString());
-                        context
-                            .read<PlaceCubit>()
-                            .placeRepository
-                            .savePlace(place);
-                        Navigator.pop(context);
-                      }
-                    },
+                    onPressed: _formSubmit
+                        ? () async {
+                            if (_formKey.currentState!.validate()) {
+                              context.read<PlaceCubit>().getPlaces();
+                              List<File> listFile = [];
+                              if (_image != null) {
+                                File file = File(_image!.path);
+                                listFile.add(file);
+                              }
+                              Place place = Place(
+                                locality: _localityController.value.text,
+                                name: _nameController.value.text,
+                                description: _descriptionController.value.text,
+                                images: listFile,
+                              );
+                              print(place.toString());
+                              context
+                                  .read<PlaceCubit>()
+                                  .placeRepository
+                                  .savePlace(place);
+                              Navigator.pop(context);
+                            }
+                          }
+                        : null,
                     child: Text(
                       'Enregistrer',
                       style: GoogleFonts.poppins(
@@ -137,11 +140,14 @@ class PlaceCreationPage extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const HomePage(),
+              onPressed: () => {
+                context.read<PlaceCubit>().getPlaces(),
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  ),
                 ),
-              ),
+              },
               child: Text(
                 'Revenir à la page principale',
                 style: GoogleFonts.poppins(
