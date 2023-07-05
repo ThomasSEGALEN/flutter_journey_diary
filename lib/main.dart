@@ -60,9 +60,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Journey Diary',
       theme: ThemeData(
-        indicatorColor: Colors.green,
         textSelectionTheme: TextSelectionThemeData(
-          cursorColor: Colors.black,
+          cursorColor: Colors.grey,
           selectionColor: Colors.grey.shade300,
           selectionHandleColor: const Color(JourneyColor.congoPink),
         ),
