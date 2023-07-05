@@ -19,7 +19,7 @@ class LocationRepository {
         '/cities',
         queryParameters: {
           'keyword': locationName,
-          'max': 1, // Selects only the first element
+          'max': 10, // Selects only the first element
         },
         options: Options(
           headers: {"Authorization": "Bearer $accessToken"},
@@ -45,8 +45,8 @@ class LocationRepository {
     ];
 
     // Check whether the search contains a city from the list
-    if (response.statusCode != 200 ||
-        !availableLocations.contains(locationName.toLowerCase())) {
+    if (response.statusCode != 200) {
+      /*|| !availableLocations.contains(locationName.toLowerCase())*/
       throw Exception();
     }
 
@@ -70,8 +70,8 @@ class LocationRepository {
       response = await dio.get(
         '/pois',
         queryParameters: {
-          'latitude': location.latitude,
-          'longitude': location.longitude,
+          'latitude': location.geoCode['latitude'],
+          'longitude': location.geoCode['longitude'],
           'page': 1,
         },
         options: Options(
