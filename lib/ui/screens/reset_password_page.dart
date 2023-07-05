@@ -84,7 +84,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                     value == null || value.isEmpty
                                         ? 'Le champ doit être renseigné'
                                         : null,
-                                showCursor: false,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:

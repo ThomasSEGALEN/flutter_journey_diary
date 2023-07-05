@@ -88,7 +88,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                         value == null || value.isEmpty
                                             ? 'Le champ doit être renseigné'
                                             : null,
-                                    showCursor: false,
                                     decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(
@@ -122,7 +121,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                         value == null || value.isEmpty
                                             ? 'Le champ doit être renseigné'
                                             : null,
-                                    showCursor: false,
                                     decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: const BorderSide(

@@ -98,7 +98,6 @@ class _HomePageState extends State<HomePage> {
             ),
             TextField(
               controller: _locationController,
-              showCursor: false,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.grey),

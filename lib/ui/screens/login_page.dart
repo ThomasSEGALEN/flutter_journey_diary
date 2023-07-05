@@ -88,7 +88,6 @@ class _LoginPageState extends State<LoginPage> {
                                     value == null || value.isEmpty
                                         ? 'Le champ doit être renseigné'
                                         : null,
-                                showCursor: false,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
@@ -122,7 +121,6 @@ class _LoginPageState extends State<LoginPage> {
                                     value == null || value.isEmpty
                                         ? 'Le champ doit être renseigné'
                                         : null,
-                                showCursor: false,
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:
