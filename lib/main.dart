@@ -15,6 +15,7 @@ import 'package:flutter_journey_diary/repositories/place_repository.dart';
 import 'package:flutter_journey_diary/repositories/user_repository.dart';
 import 'package:flutter_journey_diary/ui/screens/home_page.dart';
 import 'package:flutter_journey_diary/ui/screens/login_page.dart';
+import 'package:flutter_journey_diary/ui/shared/colors.dart';
 
 Future<void> main() async {
   await dotenv.load();
@@ -29,7 +30,7 @@ Future<void> main() async {
     FirebaseStorage.instance,
   );
   final UserRepository userRepository =
-  UserRepository(FirebaseAuth.instance, FirebaseFirestore.instance);
+      UserRepository(FirebaseAuth.instance, FirebaseFirestore.instance);
 
   await userRepository.init();
 
@@ -58,6 +59,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Journey Diary',
+      theme: ThemeData(
+        indicatorColor: Colors.green,
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.black,
+          selectionColor: Colors.grey.shade300,
+          selectionHandleColor: const Color(JourneyColor.congoPink),
+        ),
+      ),
       home: BlocBuilder<UserCubit, bool>(
         builder: (context, state) =>
             state ? const HomePage() : const LoginPage(),
