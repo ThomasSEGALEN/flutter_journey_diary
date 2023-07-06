@@ -30,6 +30,13 @@
             {
               "client_id": "496640424992-eeeq9auhevp1b7qb21sog3tvuhnrg82c.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "496640424992-lmlsmbks1re7s6eg5vvp2h3rjvb5t5o1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterJourneyDiary"
+              }
             }
           ]
         }

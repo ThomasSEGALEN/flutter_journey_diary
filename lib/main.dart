@@ -9,7 +9,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_journey_diary/blocs/location_cubit.dart';
 import 'package:flutter_journey_diary/blocs/place_cubit.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
-import 'package:flutter_journey_diary/models/amadeus.dart';
 import 'package:flutter_journey_diary/repositories/location_repository.dart';
 import 'package:flutter_journey_diary/repositories/place_repository.dart';
 import 'package:flutter_journey_diary/repositories/user_repository.dart';
@@ -21,14 +20,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 Future<void> main() async {
   await dotenv.load();
-  await Amadeus().generateAccessToken();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   final LocationRepository locationRepository = LocationRepository();
   final PlaceRepository placeRepository = PlaceRepository(
-    FirebaseDatabase.instance,
     FirebaseAuth.instance,
+    FirebaseDatabase.instance,
     FirebaseStorage.instance,
   );
   final UserRepository userRepository =
