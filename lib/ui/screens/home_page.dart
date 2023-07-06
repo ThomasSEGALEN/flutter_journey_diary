@@ -50,11 +50,11 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               leading: const Icon(
-                Icons.home_outlined,
+                Icons.travel_explore_outlined,
                 color: Colors.black,
               ),
               title: Text(
-                'Mon carnet',
+                'Mes voyages',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               onTap: () => Navigator.push(
@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       appBar: AppBar(
-        title: const Text("Mon carnet"),
+        title: const Text("Mes voyages"),
         backgroundColor: const Color(JDColor.congoPink),
       ),
       body: Center(
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "Votre carnet est vide ? ",
+                                "Votre carnet de voyages est vide ? ",
                                 style: Theme.of(context)
                                     .textTheme
                                     .labelMedium
@@ -156,126 +156,132 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                         )
-                      : Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: RefreshIndicator(
-                                color: const Color(JDColor.congoPink),
-                                backgroundColor: Colors.white,
-                                onRefresh: () =>
-                                    context.read<PlaceCubit>().getPlaces(),
-                                child: ListView.separated(
-                                  separatorBuilder:
-                                      (BuildContext context, int index) =>
-                                          const SizedBox(width: 20),
-                                  itemCount: state.placesList!.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return GestureDetector(
-                                      onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              PlaceDetailsPage(
-                                                  state.placesList![index]),
-                                        ),
-                                      ),
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(20),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              state.placesList![index].urls!
-                                                      .isNotEmpty
-                                                  ? FadeInImage.memoryNetwork(
-                                                      image: state
-                                                          .placesList![index]
-                                                          .urls![0],
-                                                      height: 100,
-                                                      width: 100,
-                                                      fit: BoxFit.cover,
-                                                      placeholder:
-                                                          kTransparentImage,
-                                                    )
-                                                  : SizedBox(
-                                                      height: 100,
-                                                      width: 100,
-                                                      child: Image.asset(
-                                                          'assets/images/logoJourneyDiary.png'),
-                                                    ),
-                                              const VerticalDivider(width: 20),
-                                              Expanded(
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      state.placesList![index]
-                                                          .name,
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .titleLarge,
-                                                    ),
-                                                    Text(
-                                                      state.placesList![index]
-                                                                  .description !=
-                                                              null
-                                                          ? state
-                                                              .placesList![
-                                                                  index]
-                                                              .description!
-                                                          : '',
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .titleMedium
-                                                          ?.copyWith(
-                                                              color:
-                                                                  Colors.grey),
-                                                    ),
-                                                    Text(
-                                                      state.placesList![index]
-                                                          .locality,
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .titleMedium
-                                                          ?.copyWith(
-                                                              color: const Color(
-                                                                  JDColor
-                                                                      .congoPink)),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
+                      : Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: RefreshIndicator(
+                                  color: const Color(JDColor.congoPink),
+                                  backgroundColor: Colors.white,
+                                  onRefresh: () =>
+                                      context.read<PlaceCubit>().getPlaces(),
+                                  child: ListView.separated(
+                                    separatorBuilder:
+                                        (BuildContext context, int index) =>
+                                            const SizedBox(width: 20),
+                                    itemCount: state.placesList!.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return GestureDetector(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PlaceDetailsPage(
+                                                    state.placesList![index]),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(20),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                state.placesList![index].urls!
+                                                        .isNotEmpty
+                                                    ? FadeInImage.memoryNetwork(
+                                                        image: state
+                                                            .placesList![index]
+                                                            .urls![0],
+                                                        height: 100,
+                                                        width: 100,
+                                                        fit: BoxFit.cover,
+                                                        placeholder:
+                                                            kTransparentImage,
+                                                      )
+                                                    : SizedBox(
+                                                        height: 100,
+                                                        width: 100,
+                                                        child: Image.asset(
+                                                            'assets/images/logoJourneyDiary.png'),
+                                                      ),
+                                                const VerticalDivider(
+                                                    width: 20),
+                                                Expanded(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        state.placesList![index]
+                                                            .name,
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .titleLarge,
+                                                      ),
+                                                      Text(
+                                                        state.placesList![index]
+                                                                    .description !=
+                                                                null
+                                                            ? state
+                                                                .placesList![
+                                                                    index]
+                                                                .description!
+                                                            : '',
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .titleMedium
+                                                            ?.copyWith(
+                                                                color: Colors
+                                                                    .grey),
+                                                      ),
+                                                      Text(
+                                                        state.placesList![index]
+                                                            .locality,
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .titleMedium
+                                                            ?.copyWith(
+                                                                color: const Color(
+                                                                    JDColor
+                                                                        .congoPink)),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         );
                 }
               case DataState.error:

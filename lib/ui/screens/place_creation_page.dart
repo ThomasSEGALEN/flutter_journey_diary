@@ -196,7 +196,7 @@ class _PlaceCreationPageState extends State<PlaceCreationPage> {
                                         locality: _localityController.text,
                                       );
 
-                                      await context
+                                      context
                                           .read<PlaceCubit>()
                                           .savePlace(place);
 
