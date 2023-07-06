@@ -178,8 +178,6 @@ class _PlaceDetailsPageState extends State<PlaceDetailsPage> {
 
                 if (!mounted) return;
 
-                print(widget.place);
-
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const HomePage(),
