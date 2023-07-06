@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_journey_diary/blocs/place_cubit.dart';
 import 'package:flutter_journey_diary/blocs/place_state.dart';
 import 'package:flutter_journey_diary/blocs/user_cubit.dart';
@@ -8,6 +9,10 @@ import 'package:flutter_journey_diary/ui/screens/login_page.dart';
 import 'package:flutter_journey_diary/ui/screens/place_creation_page.dart';
 import 'package:flutter_journey_diary/ui/screens/place_details_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
+import 'package:google_maps_webservice/places.dart' as gmw;
+import 'package:google_place/google_place.dart';
+import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:google_places_flutter/model/prediction.dart' as gpf;
 import 'package:transparent_image/transparent_image.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,11 +23,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final String _googleApiKey = dotenv.env['GOOGLE_TOKEN'] as String;
   final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _googleController = TextEditingController();
 
   @override
   void dispose() {
     _locationController.dispose();
+    _googleController.dispose();
 
     super.dispose();
   }
@@ -113,6 +121,48 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Mes voyages"),
         backgroundColor: const Color(JDColor.congoPink),
+        actions: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width / 2,
+            child: GooglePlaceAutoCompleteTextField(
+              textEditingController: _googleController,
+              googleAPIKey: _googleApiKey,
+              inputDecoration:
+                  const InputDecoration(labelText: "Vous voulez voyager ?"),
+              debounceTime: 800,
+              countries: const ["in", "fr"],
+              isLatLngRequired: true,
+              getPlaceDetailWithLatLng: (gpf.Prediction prediction) {
+                print("placeDetails${prediction.lng}");
+              },
+              // this callback is called when isLatLngRequired is true
+              itmClick: (gpf.Prediction prediction) async {
+                gmw.GoogleMapsPlaces places =
+                    gmw.GoogleMapsPlaces(apiKey: _googleApiKey);
+
+                gmw.PlacesDetailsResponse detail =
+                    await places.getDetailsByPlaceId(prediction.placeId!);
+
+                double latitude = detail.result.geometry!.location.lat;
+                double longitude = detail.result.geometry!.location.lng;
+
+                GooglePlace googlePlace =
+                    GooglePlace(dotenv.env["GOOGLE_TOKEN"]!);
+                var result = await googlePlace.search.getNearBySearch(
+                    Location(lat: latitude, lng: longitude), 5000,
+                    keyword: "point of interest");
+
+                print(result?.results);
+
+                result?.results?.forEach(
+                  (element) {
+                    print(element.name);
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
       body: Center(
         child: BlocBuilder<PlaceCubit, PlaceState>(
