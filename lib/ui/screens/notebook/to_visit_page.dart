@@ -43,71 +43,100 @@ class _ToVisitPageState extends State<ToVisitPage> {
                 }
               case DataState.loaded:
                 {
-                  return RefreshIndicator(
-                    color: const Color(JDColor.congoPink),
-                    backgroundColor: Colors.white,
-                    onRefresh: () => context.read<ToVisitCubit>().getVisits(),
-                    child: ListView.separated(
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const Divider(),
-                      itemCount: state.visits!.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PointOfInterestDetailsPage(
-                                  state.visits![index]),
-                            ),
+                  return state.visits!.isNotEmpty
+                      ? RefreshIndicator(
+                          color: const Color(JDColor.congoPink),
+                          backgroundColor: Colors.white,
+                          onRefresh: () =>
+                              context.read<ToVisitCubit>().getVisits(),
+                          child: ListView.separated(
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const Divider(),
+                            itemCount: state.visits!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        PointOfInterestDetailsPage(
+                                            state.visits![index]),
+                                  ),
+                                ),
+                                leading: context
+                                        .read<GooglePlaceCubit>()
+                                        .getImageUrl(state.visits?[index]
+                                            .photos?[0]['photo_reference'])
+                                        .isEmpty
+                                    ? Image.asset(
+                                        'assets/images/logoJourneyDiary.png',
+                                        height: 100,
+                                        width: 100,
+                                      )
+                                    : FadeInImage.memoryNetwork(
+                                        image: context
+                                            .read<GooglePlaceCubit>()
+                                            .getImageUrl(state.visits?[index]
+                                                .photos?[0]['photo_reference']),
+                                        height: 100,
+                                        width: 100,
+                                        fit: BoxFit.cover,
+                                        placeholder: kTransparentImage,
+                                      ),
+                                title: Text(state.visits?[index].name ?? ''),
+                                subtitle: RatingBar.builder(
+                                  initialRating:
+                                      state.visits?[index].rating?.toDouble() ??
+                                          0.0,
+                                  minRating: 1,
+                                  maxRating: 5,
+                                  ignoreGestures: true,
+                                  itemSize: 25.0,
+                                  itemBuilder:
+                                      (BuildContext context, int index) =>
+                                          const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: (double value) {},
+                                ),
+                                trailing: const Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.arrow_forward_ios),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
-                          leading: context
-                              .read<GooglePlaceCubit>()
-                              .getImageUrl(state.visits?[index]
-                              .photos?[0]['photo_reference'])
-                              .isEmpty
-                              ? Image.asset(
-                            'assets/images/logoJourneyDiary.png',
-                            height: 100,
-                            width: 100,
-                          )
-                              : FadeInImage.memoryNetwork(
-                            image: context
-                                .read<GooglePlaceCubit>()
-                                .getImageUrl(state
-                                .visits?[index]
-                                .photos?[0]['photo_reference']),
-                            height: 100,
-                            width: 100,
-                            fit: BoxFit.cover,
-                            placeholder: kTransparentImage,
-                          ),
-                          title:
-                          Text(state.visits?[index].name ?? ''),
-                          subtitle: RatingBar.builder(
-                            initialRating: state.visits?[index].rating
-                                ?.toDouble() ??
-                                0.0,
-                            minRating: 1,
-                            maxRating: 5,
-                            ignoreGestures: true,
-                            itemSize: 25.0,
-                            itemBuilder: (BuildContext context, int index) =>
-                            const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            onRatingUpdate: (double value) {},
-                          ),
-                          trailing: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        )
+                      : RichText(
+                          text: TextSpan(
+                            text: 'Votre liste de lieux ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(color: Colors.grey),
                             children: [
-                              Icon(Icons.arrow_forward_ios),
+                              TextSpan(
+                                text: 'à visiter ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.copyWith(
+                                        color: const Color(JDColor.congoPink)),
+                              ),
+                              TextSpan(
+                                text: 'est vide.',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.copyWith(color: Colors.grey),
+                              ),
                             ],
                           ),
                         );
-                      },
-                    ),
-                  );
                 }
               case DataState.error:
                 {
