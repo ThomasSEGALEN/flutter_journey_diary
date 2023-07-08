@@ -1,20 +1,21 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_journey_diary/blocs/place_cubit.dart';
+import 'package:flutter_journey_diary/blocs/notebook/place_cubit.dart';
 import 'package:flutter_journey_diary/models/place.dart';
 import 'package:flutter_journey_diary/ui/screens/home_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
-class PlaceCreationPage extends StatefulWidget {
-  const PlaceCreationPage({Key? key}) : super(key: key);
+class CreatePlacePage extends StatefulWidget {
+  const CreatePlacePage({Key? key}) : super(key: key);
 
   @override
-  State<PlaceCreationPage> createState() => _PlaceCreationPageState();
+  State<CreatePlacePage> createState() => _CreatePlacePageState();
 }
 
-class _PlaceCreationPageState extends State<PlaceCreationPage> {
+class _CreatePlacePageState extends State<CreatePlacePage> {
   final _formKey = GlobalKey<FormState>();
   final picker = ImagePicker();
   final TextEditingController _nameController = TextEditingController();
@@ -189,6 +190,7 @@ class _PlaceCreationPageState extends State<PlaceCreationPage> {
                                       }
 
                                       final Place place = Place(
+                                        id: const Uuid().v1(),
                                         name: _nameController.text,
                                         description:
                                             _descriptionController.text,

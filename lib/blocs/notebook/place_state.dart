@@ -3,9 +3,9 @@ import 'package:flutter_journey_diary/models/place.dart';
 
 class PlaceState {
   DataState dataState;
-  List<Place>? placesList;
+  List<Place>? places;
 
-  PlaceState(this.dataState, [this.placesList]);
+  PlaceState(this.dataState, [this.places]);
 
   factory PlaceState.loading() => PlaceState(DataState.loading);
 

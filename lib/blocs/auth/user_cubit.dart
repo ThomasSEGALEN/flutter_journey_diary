@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_journey_diary/repositories/user_repository.dart';
+import 'package:flutter_journey_diary/repositories/auth/user_repository.dart';
 
 class UserCubit extends Cubit<bool> {
   UserCubit(this.userRepository) : super(false);
@@ -12,6 +12,7 @@ class UserCubit extends Cubit<bool> {
 
   Future<bool> login(String email, String password) async {
     final bool loginState = await userRepository.login(email, password);
+
     emit(loginState);
 
     return loginState;
@@ -23,15 +24,13 @@ class UserCubit extends Cubit<bool> {
     return registerState;
   }
 
-  Future<bool> logout() async {
-    final bool logoutState = await userRepository.logout();
-    emit(logoutState);
-
-    return logoutState;
+  Future<void> logout() async {
+    await userRepository.logout();
   }
 
   Future<bool> resetPassword(String username) async {
-    final bool resetPasswordState = await userRepository.resetPassword(username);
+    final bool resetPasswordState =
+        await userRepository.resetPassword(username);
 
     return resetPasswordState;
   }

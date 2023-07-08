@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_journey_diary/blocs/place_state.dart';
+import 'package:flutter_journey_diary/blocs/notebook/place_state.dart';
 import 'package:flutter_journey_diary/models/place.dart';
-import 'package:flutter_journey_diary/repositories/place_repository.dart';
+import 'package:flutter_journey_diary/repositories/notebook/place_repository.dart';
 
 class PlaceCubit extends Cubit<PlaceState> {
   PlaceCubit(this.placeRepository) : super(PlaceState.loading());
@@ -12,10 +12,13 @@ class PlaceCubit extends Cubit<PlaceState> {
   Future<void> getPlaces() async {
     try {
       emit(PlaceState.loading());
+
       final List<Place> places = await placeRepository.getPlaces();
+
       emit(PlaceState.loaded(places));
     } catch (e) {
       log(e.toString());
+
       emit(PlaceState.error());
     }
   }

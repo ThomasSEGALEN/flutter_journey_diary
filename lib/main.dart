@@ -6,14 +6,17 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_journey_diary/blocs/location_cubit.dart';
-import 'package:flutter_journey_diary/blocs/place_cubit.dart';
-import 'package:flutter_journey_diary/blocs/user_cubit.dart';
-import 'package:flutter_journey_diary/repositories/location_repository.dart';
-import 'package:flutter_journey_diary/repositories/place_repository.dart';
-import 'package:flutter_journey_diary/repositories/user_repository.dart';
+import 'package:flutter_journey_diary/blocs/google/google_place_cubit.dart';
+import 'package:flutter_journey_diary/blocs/google/google_point_of_interest_cubit.dart';
+import 'package:flutter_journey_diary/blocs/notebook/to_visit_cubit.dart';
+import 'package:flutter_journey_diary/blocs/notebook/place_cubit.dart';
+import 'package:flutter_journey_diary/blocs/auth/user_cubit.dart';
+import 'package:flutter_journey_diary/repositories/google/google_place_repository.dart';
+import 'package:flutter_journey_diary/repositories/notebook/to_visit_repository.dart';
+import 'package:flutter_journey_diary/repositories/notebook/place_repository.dart';
+import 'package:flutter_journey_diary/repositories/auth/user_repository.dart';
 import 'package:flutter_journey_diary/ui/screens/home_page.dart';
-import 'package:flutter_journey_diary/ui/screens/login_page.dart';
+import 'package:flutter_journey_diary/ui/screens/auth/login_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
 import 'package:flutter_journey_diary/ui/shared/fonts.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +26,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  final LocationRepository locationRepository = LocationRepository();
+  final ToVisitRepository toVisitRepository = ToVisitRepository(
+    FirebaseAuth.instance,
+    FirebaseDatabase.instance,
+    FirebaseStorage.instance,
+  );
+  final GooglePlaceRepository googlePlaceRepository = GooglePlaceRepository();
   final PlaceRepository placeRepository = PlaceRepository(
     FirebaseAuth.instance,
     FirebaseDatabase.instance,
@@ -38,7 +46,13 @@ Future<void> main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => LocationCubit(locationRepository),
+          create: (_) => ToVisitCubit(toVisitRepository),
+        ),
+        BlocProvider(
+          create: (_) => GooglePlaceCubit(googlePlaceRepository),
+        ),
+        BlocProvider(
+          create: (_) => GooglePointOfInterestCubit(googlePlaceRepository),
         ),
         BlocProvider(
           create: (_) => PlaceCubit(placeRepository),
