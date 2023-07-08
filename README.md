@@ -8,7 +8,7 @@
 4. [Version Flutter/Dart](README.md#4-version-flutterdart-)
 5. [Fonctionnalités](README.md#5-fonctionnalités-)
 6. [API](README.md#6-api-)
-7. [Commandes](README.md#7-commandes-)
+7. [Utilisation](README.md#7-utilisation-)
 8. [Contributeurs](README.md#8-contributeurs-)
 
 ## 1. Définition du projet :
@@ -69,10 +69,15 @@ Pour réaliser ce projet, nous avons utilisé l'API [Amadeus](https://developers
 
 À noter, qu'il y aura un maximum de 10 points d'intérêts par ville.
 
-## 7. Commandes :
+## 7. Utilisation :
 
+Exécuter les commandes suivantes :
 > flutter pub get  
 > flutter run
+
+Compte utilisateur test :  
+Adresse e-mail - test@jd.com  
+Mot de passe - test123
 
 ## 8. Contributeurs :
 
