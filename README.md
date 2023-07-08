@@ -75,8 +75,8 @@ Exécuter les commandes suivantes :
 > flutter pub get  
 > flutter run
 
-Compte utilisateur test :
-Adresse e-mail - test@jd.com
+Compte utilisateur test :  
+Adresse e-mail - test@jd.com  
 Mot de passe - test123
 
 ## 8. Contributeurs :
