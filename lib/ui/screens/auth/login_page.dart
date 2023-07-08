@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_journey_diary/blocs/user_cubit.dart';
+import 'package:flutter_journey_diary/blocs/auth/user_cubit.dart';
 import 'package:flutter_journey_diary/ui/screens/home_page.dart';
-import 'package:flutter_journey_diary/ui/screens/register_page.dart';
-import 'package:flutter_journey_diary/ui/screens/reset_password_page.dart';
+import 'package:flutter_journey_diary/ui/screens/auth/register_page.dart';
+import 'package:flutter_journey_diary/ui/screens/auth/reset_password_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
 
 class LoginPage extends StatefulWidget {
@@ -249,26 +249,25 @@ class _LoginPageState extends State<LoginPage> {
                             builder: (context) => const RegisterPage(),
                           ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Vous n'avez pas de compte ? ",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium
-                                  ?.copyWith(color: Colors.grey),
-                            ),
-                            Text(
-                              "S'inscrire !",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium
-                                  ?.copyWith(
-                                      color: const Color(JDColor.congoPink)),
-                            ),
-                          ],
+                        child: RichText(
+                          text: TextSpan(
+                            text: "Vous n'avez pas de compte ? ",
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium
+                                ?.copyWith(color: Colors.grey),
+                            children: [
+                              TextSpan(
+                                text: "S'inscrire !",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.copyWith(
+                                    color:
+                                    const Color(JDColor.congoPink)),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

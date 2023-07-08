@@ -1,14 +1,21 @@
 import 'dart:io';
 
 class Place {
+  String id;
   String name;
   String? description;
-  List<File>? images;
   String locality;
+  List<File>? images;
   List<String>? urls;
 
-  Place({required this.locality,required this.name, this.description,this.images, this.urls});
-
+  Place({
+    required this.id,
+    required this.name,
+    this.description,
+    required this.locality,
+    this.images,
+    this.urls,
+  });
 
   @override
   String toString() {

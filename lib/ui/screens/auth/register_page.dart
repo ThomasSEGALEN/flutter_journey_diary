@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_journey_diary/blocs/user_cubit.dart';
-import 'package:flutter_journey_diary/ui/screens/login_page.dart';
+import 'package:flutter_journey_diary/blocs/auth/user_cubit.dart';
+import 'package:flutter_journey_diary/ui/screens/auth/login_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
 
-class ResetPasswordPage extends StatefulWidget {
-  const ResetPasswordPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
+    _passwordController.dispose();
 
     super.dispose();
   }
@@ -49,14 +51,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Mot de passe oublié',
+                        "Créer son compte",
                         style: Theme.of(context)
                             .textTheme
                             .headlineLarge
                             ?.copyWith(color: Colors.white),
                       ),
                       Text(
-                        'Recevez un e-mail pour réinitialiser votre mot de passe',
+                        'Journey Diary',
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall
@@ -80,54 +82,93 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           key: _formKey,
                           child: Column(
                             children: [
-                              TextFormField(
-                                controller: _emailController,
-                                validator: (value) =>
-                                    value == null || value.isEmpty
-                                        ? 'Le champ doit être renseigné'
-                                        : null,
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(5),
+                              Column(
+                                children: [
+                                  TextFormField(
+                                    controller: _emailController,
+                                    validator: (value) =>
+                                        value == null || value.isEmpty
+                                            ? 'Le champ doit être renseigné'
+                                            : null,
+                                    decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      labelText: 'Adresse e-mail',
+                                      labelStyle:
+                                          const TextStyle(color: Colors.grey),
+                                    ),
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(5),
+                                  const SizedBox(height: 30),
+                                  TextFormField(
+                                    controller: _passwordController,
+                                    validator: (value) =>
+                                        value == null || value.isEmpty
+                                            ? 'Le champ doit être renseigné'
+                                            : null,
+                                    decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      labelText: 'Mot de passe',
+                                      labelStyle:
+                                          const TextStyle(color: Colors.grey),
+                                    ),
+                                    obscureText: true,
                                   ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  labelText: 'Adresse e-mail',
-                                  labelStyle:
-                                      const TextStyle(color: Colors.grey),
-                                ),
+                                ],
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 50),
                                 child: ElevatedButton(
                                   onPressed: () async {
                                     if (_formKey.currentState!.validate()) {
-                                      final bool checkResetPassword =
-                                          await context
-                                              .read<UserCubit>()
-                                              .resetPassword(
-                                                  _emailController.text.trim());
+                                      final bool checkRegister = await context
+                                          .read<UserCubit>()
+                                          .register(
+                                            _emailController.text.trim(),
+                                            _passwordController.text.trim(),
+                                          );
 
                                       if (!mounted) return;
 
                                       late final SnackBar snackBar;
 
-                                      if (checkResetPassword) {
+                                      if (checkRegister) {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
@@ -137,7 +178,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
                                         snackBar = SnackBar(
                                           content: Text(
-                                            'E-mail envoyé',
+                                            'Inscription réussie',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall
@@ -153,7 +194,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                       } else {
                                         snackBar = SnackBar(
                                           content: Text(
-                                            "Erreur lors de l'envoi",
+                                            "Erreur lors de l'inscription",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall
@@ -181,7 +222,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                         const Color(JDColor.congoPink),
                                   ),
                                   child: Text(
-                                    'Réinitialisation',
+                                    'Inscription',
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleLarge
@@ -195,27 +236,25 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                     builder: (context) => const LoginPage(),
                                   ),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Revenir à l'écran de ",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium
-                                          ?.copyWith(color: Colors.grey),
-                                    ),
-                                    Text(
-                                      'connexion',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium
-                                          ?.copyWith(
-                                              color: const Color(
-                                                  JDColor.congoPink)),
-                                    ),
-                                  ],
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: 'Vous avez déjà un compte ? ',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium
+                                        ?.copyWith(color: Colors.grey),
+                                    children: [
+                                      TextSpan(
+                                        text: 'Se connecter !',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium
+                                            ?.copyWith(
+                                            color:
+                                            const Color(JDColor.congoPink)),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],

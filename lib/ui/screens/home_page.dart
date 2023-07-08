@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_journey_diary/blocs/place_cubit.dart';
-import 'package:flutter_journey_diary/blocs/place_state.dart';
-import 'package:flutter_journey_diary/blocs/user_cubit.dart';
+import 'package:flutter_journey_diary/blocs/notebook/place_cubit.dart';
+import 'package:flutter_journey_diary/blocs/notebook/place_state.dart';
+import 'package:flutter_journey_diary/blocs/auth/user_cubit.dart';
 import 'package:flutter_journey_diary/models/data_state.dart';
-import 'package:flutter_journey_diary/ui/screens/login_page.dart';
-import 'package:flutter_journey_diary/ui/screens/place_creation_page.dart';
-import 'package:flutter_journey_diary/ui/screens/place_details_page.dart';
+import 'package:flutter_journey_diary/models/google_prediction.dart';
+import 'package:flutter_journey_diary/repositories/google/google_place_repository.dart';
+import 'package:flutter_journey_diary/ui/screens/auth/login_page.dart';
+import 'package:flutter_journey_diary/ui/screens/google/place_details_page.dart';
+import 'package:flutter_journey_diary/ui/screens/notebook/create_place_page.dart';
+import 'package:flutter_journey_diary/ui/screens/notebook/place_details_page.dart';
+import 'package:flutter_journey_diary/ui/screens/notebook/to_visit_page.dart';
 import 'package:flutter_journey_diary/ui/shared/colors.dart';
-import 'package:google_maps_webservice/places.dart' as gmw;
-import 'package:google_place/google_place.dart';
-import 'package:google_places_flutter/google_places_flutter.dart';
-import 'package:google_places_flutter/model/prediction.dart' as gpf;
 import 'package:transparent_image/transparent_image.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,7 +22,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final String _googleApiKey = dotenv.env['GOOGLE_TOKEN'] as String;
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _googleController = TextEditingController();
 
@@ -50,12 +48,14 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            DrawerHeader(
+            Padding(
+              padding: const EdgeInsets.only(top: 50),
               child: Image.asset(
                 'assets/images/logoJourneyDiary.png',
                 width: MediaQuery.of(context).size.width,
               ),
             ),
+            const Divider(height: 50),
             ListTile(
               leading: const Icon(
                 Icons.travel_explore_outlined,
@@ -84,13 +84,27 @@ class _HomePageState extends State<HomePage> {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PlaceCreationPage(),
+                  builder: (context) => const CreatePlacePage(),
                 ),
               ),
             ),
-            Expanded(
-              child: SizedBox(width: MediaQuery.of(context).size.width),
+            ListTile(
+              leading: const Icon(
+                Icons.favorite_border_outlined,
+                color: Colors.black,
+              ),
+              title: Text(
+                'À visiter',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ToVisitPage(),
+                ),
+              ),
             ),
+            const Divider(height: 50),
             ListTile(
               leading: const Icon(
                 Icons.logout_outlined,
@@ -101,18 +115,16 @@ class _HomePageState extends State<HomePage> {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               onTap: () async {
-                final bool checkLogout =
-                    await context.read<UserCubit>().logout();
+                await context.read<UserCubit>().logout();
 
                 if (!mounted) return;
-                if (!checkLogout) {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
-                    ),
-                    (route) => false,
-                  );
-                }
+
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => const LoginPage(),
+                  ),
+                  (route) => false,
+                );
               },
             ),
           ],
@@ -122,45 +134,12 @@ class _HomePageState extends State<HomePage> {
         title: const Text("Mes voyages"),
         backgroundColor: const Color(JDColor.congoPink),
         actions: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 2,
-            child: GooglePlaceAutoCompleteTextField(
-              textEditingController: _googleController,
-              googleAPIKey: _googleApiKey,
-              inputDecoration:
-                  const InputDecoration(labelText: "Vous voulez voyager ?"),
-              debounceTime: 800,
-              countries: const ["in", "fr"],
-              isLatLngRequired: true,
-              getPlaceDetailWithLatLng: (gpf.Prediction prediction) {
-                print("placeDetails${prediction.lng}");
-              },
-              // this callback is called when isLatLngRequired is true
-              itmClick: (gpf.Prediction prediction) async {
-                gmw.GoogleMapsPlaces places =
-                    gmw.GoogleMapsPlaces(apiKey: _googleApiKey);
-
-                gmw.PlacesDetailsResponse detail =
-                    await places.getDetailsByPlaceId(prediction.placeId!);
-
-                double latitude = detail.result.geometry!.location.lat;
-                double longitude = detail.result.geometry!.location.lng;
-
-                GooglePlace googlePlace =
-                    GooglePlace(dotenv.env["GOOGLE_TOKEN"]!);
-                var result = await googlePlace.search.getNearBySearch(
-                    Location(lat: latitude, lng: longitude), 5000,
-                    keyword: "point of interest");
-
-                print(result?.results);
-
-                result?.results?.forEach(
-                  (element) {
-                    print(element.name);
-                  },
-                );
-              },
+          IconButton(
+            onPressed: () async => await showSearch(
+              context: context,
+              delegate: GoogleSearch(),
             ),
+            icon: const Icon(Icons.search_outlined),
           ),
         ],
       ),
@@ -171,39 +150,36 @@ class _HomePageState extends State<HomePage> {
               case DataState.loading:
                 {
                   return const CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(Color(JDColor.congoPink)),
-                  );
+                      color: Color(JDColor.congoPink));
                 }
               case DataState.loaded:
                 {
-                  return state.placesList!.isEmpty
+                  return state.places!.isEmpty
                       ? TextButton(
                           onPressed: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const PlaceCreationPage(),
+                              builder: (context) => const CreatePlacePage(),
                             ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Votre carnet de voyages est vide ? ",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(color: Colors.grey),
-                              ),
-                              Text(
-                                "Ajoutez un lieu !",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(
-                                        color: const Color(JDColor.congoPink)),
-                              ),
-                            ],
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Votre carnet de voyages est vide ? ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(color: Colors.grey),
+                              children: [
+                                TextSpan(
+                                  text: 'Ajoutez un lieu !',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium
+                                      ?.copyWith(
+                                          color:
+                                              const Color(JDColor.congoPink)),
+                                ),
+                              ],
+                            ),
                           ),
                         )
                       : Padding(
@@ -222,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                                     separatorBuilder:
                                         (BuildContext context, int index) =>
                                             const SizedBox(width: 20),
-                                    itemCount: state.placesList!.length,
+                                    itemCount: state.places!.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return GestureDetector(
@@ -231,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 PlaceDetailsPage(
-                                                    state.placesList![index]),
+                                                    state.places![index]),
                                           ),
                                         ),
                                         child: Card(
@@ -246,11 +222,11 @@ class _HomePageState extends State<HomePage> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
-                                                state.placesList![index].urls!
+                                                state.places![index].urls!
                                                         .isNotEmpty
                                                     ? FadeInImage.memoryNetwork(
                                                         image: state
-                                                            .placesList![index]
+                                                            .places![index]
                                                             .urls![0],
                                                         height: 100,
                                                         width: 100,
@@ -276,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        state.placesList![index]
+                                                        state.places![index]
                                                             .name,
                                                         maxLines: 1,
                                                         overflow: TextOverflow
@@ -286,12 +262,11 @@ class _HomePageState extends State<HomePage> {
                                                             .titleLarge,
                                                       ),
                                                       Text(
-                                                        state.placesList![index]
+                                                        state.places![index]
                                                                     .description !=
                                                                 null
                                                             ? state
-                                                                .placesList![
-                                                                    index]
+                                                                .places![index]
                                                                 .description!
                                                             : '',
                                                         maxLines: 2,
@@ -305,7 +280,7 @@ class _HomePageState extends State<HomePage> {
                                                                     .grey),
                                                       ),
                                                       Text(
-                                                        state.placesList![index]
+                                                        state.places![index]
                                                             .locality,
                                                         maxLines: 1,
                                                         overflow: TextOverflow
@@ -347,4 +322,70 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+class GoogleSearch extends SearchDelegate {
+  @override
+  String get searchFieldLabel => 'Rechercher un lieu';
+
+  @override
+  TextStyle get searchFieldStyle => const TextStyle(fontSize: 16);
+
+  @override
+  List<Widget>? buildActions(BuildContext context) => [
+        IconButton(
+          onPressed: () => query.isNotEmpty
+              ? query = ''
+              : Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  ),
+                ),
+          icon: const Icon(Icons.clear_outlined),
+        ),
+      ];
+
+  @override
+  Widget? buildLeading(BuildContext context) => IconButton(
+        onPressed: () => close(context, null),
+        icon: const Icon(Icons.arrow_back),
+      );
+
+  FutureBuilder<List<GooglePrediction>> _searchBuilder() {
+    return FutureBuilder<List<GooglePrediction>>(
+      future: GooglePlaceRepository().fetchPlaces(query.trim()),
+      builder: (context, AsyncSnapshot<List<GooglePrediction>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return ListView.builder(
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(snapshot.data![index].description),
+                onTap: () async {
+                  close(context, null);
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => GooglePlaceDetailsPage(
+                          snapshot.data![index].placeId!),
+                    ),
+                  );
+                },
+              );
+            },
+            itemCount: snapshot.data?.length, // data is null
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(color: Color(JDColor.congoPink)),
+          );
+        }
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) => _searchBuilder();
+
+  @override
+  Widget buildSuggestions(BuildContext context) => _searchBuilder();
 }

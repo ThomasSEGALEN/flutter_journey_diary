@@ -8,9 +8,7 @@ class UserRepository {
   final FirebaseAuth firebaseAuth;
   final FirebaseFirestore firebaseFirestore;
 
-  Future<bool> init() async {
-    return firebaseAuth.currentUser != null;
-  }
+  Future<bool> init() async => firebaseAuth.currentUser != null;
 
   Future<bool> login(String username, String password) async {
     try {
