@@ -8,7 +8,8 @@
 4. [Version Flutter/Dart](README.md#4-version-flutterdart-)
 5. [Fonctionnalités](README.md#5-fonctionnalités-)
 6. [API](README.md#6-api-)
-7. [Contributeurs](README.md#7-contributeurs-)
+7. [Commandes](README.md#7-commandes-)
+8. [Contributeurs](README.md#8-contributeurs-)
 
 ## 1. Définition du projet :
 
@@ -41,15 +42,16 @@ Dart SDK **3.0.5**
 
 ## 5. Fonctionnalités :
 
-L'application possède plusieurs écrans :
-- Inscription
-- Connexion
-- Accueil (recherche lieu/carnet de voyage)
-- Ajout de voyage
-- Lieu - À visiter
-- Lieu - Détails
-
-Sur l'écran d'Accueil, il y a une recherche pour trouver des lieux à partir d'une ville. En cliquant sur l'un des lieux, vous êtes redirigés sur une page qui comporte les informations du lieu. Vous avez aussi la possibilité d'ajouter un voyage à votre carnet, celui-ci s'affiche dans la page Accueil sous forme de carousel. L'application est aussi équipée d'un stockage en base de données et d'un module d'authentification via Firebase.
+- Auth/Inscription
+- Auth/Connexion
+- Auth/Mot de passe oublié
+- Notebook/Accueil (recherche de lieux / carnet de voyage)
+- Notebook/Détails (informations sur les lieux du carnet de voyage)
+- Notebook/Ajout de voyage (création de lieu du carnet de voyage)
+- Notebook/Liste de lieux à visiter (mémo)
+- Google/Détails (informations sur le lieu de la recherche)
+- Google/À visiter (liste des points d'intérêt proches de la recherche)
+- Google/À visiter/Détails (informations sur le point d'intérêt)
 
 ## 6. API :
 
@@ -67,7 +69,12 @@ Pour réaliser ce projet, nous avons utilisé l'API [Amadeus](https://developers
 
 À noter, qu'il y aura un maximum de 10 points d'intérêts par ville.
 
-## 7. Contributeurs :
+## 7. Commandes :
+
+> flutter pub get
+> flutter run
+
+## 8. Contributeurs :
 
 Hugo TRINQUANT  
 Thomas SÉGALEN
