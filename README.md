@@ -71,7 +71,7 @@ Pour réaliser ce projet, nous avons utilisé l'API [Amadeus](https://developers
 
 ## 7. Commandes :
 
-> flutter pub get
+> flutter pub get  
 > flutter run
 
 ## 8. Contributeurs :
