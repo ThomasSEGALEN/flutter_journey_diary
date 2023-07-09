@@ -55,19 +55,7 @@ Dart SDK **3.0.5**
 
 ## 6. API :
 
-Pour réaliser ce projet, nous avons utilisé l'API [Amadeus](https://developers.amadeus.com/self-service).
-  
-Étant donné que nous avons utilisé la version de test, la recherche est limitée aux villes suivantes :
-- Bangalore
-- Barcelona
-- Berlin
-- Dallas
-- London
-- New York
-- Paris
-- San Francisco
-
-À noter, qu'il y aura un maximum de 10 points d'intérêts par ville.
+Pour réaliser ce projet, nous avons utilisé [Google Places API](https://developers.google.com/maps/documentation/places).
 
 ## 7. Utilisation :
 
